@@ -132,7 +132,7 @@ Two types of 95% confidence intervals (CIs) are automatically provided:
 
 #### Caveat
 
-The log-quadratic model is based on a set of vital records from Western countries. Predictions based on values of q(5y) above 0.150 and on value of k below -1.1 or above +1.5 are extrapolations. A warning message will be produced when such cases occur. Beyond these limits, it also might be impossible to converge to a solution. An error messages will be produced in such case.
+The log-quadratic model is based on a set of vital records from Western countries. Predictions based on values of q(5y) above 0.150 and on values of k below -1.1 or above +1.5 are extrapolations. A warning message will be produced when such cases occur. Beyond these limits, it also might be impossible to converge to a solution. An error messages will be produced in such case.
 
 
 
