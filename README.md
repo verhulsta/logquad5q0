@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# Modeling Age Pattern of Under-5 Mortality
+# Modeling Age Patterns of Under-5 Mortality
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -189,13 +189,13 @@ lagrange5q0(df)
 data(fin1933)
 fin1933$weight <- c(fin1933$n[1:22]/(365.25*5), NA) 
 df <- format_data(
-  lower_age = fin_1933$lower_age,
-  upper_age = fin_1933$upper_age,
-  rate      = fin_1933$rate,
-  type      = fin_1933$type,
-  sex       = fin_1933$sex,
-  fit       = fin_1933$fit,
-  weight    = fin_1933$weight)
+  lower_age = fin1933$lower_age,
+  upper_age = fin1933$upper_age,
+  rate      = fin1933$rate,
+  type      = fin1933$type,
+  sex       = fin1933$sex,
+  fit       = fin1933$fit,
+  weight    = fin1933$weight)
 
 lagrange5q0(df)
 ```
