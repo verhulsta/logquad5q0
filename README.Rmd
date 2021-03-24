@@ -111,6 +111,7 @@ The log-quadradic model deals with the following age breakdowns:
   |3 years        | 1095.7500     |
   |4 years        | 1461.0000     |
   |5 years        | 1826.2500     |
+  
 \_
 
 The function lagrange5q0 returns a list including:
