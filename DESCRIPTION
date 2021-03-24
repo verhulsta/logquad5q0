@@ -1,6 +1,6 @@
 Package: logquad5q0
 Type: Package
-Title: Modeling Age Pattern of Under-5 Mortality
+Title: Modeling Age Patterns of Under-5 Mortality
 Version: 0.1.0
 Author: Andrea Verhulst <verhulst@sas.upenn.edu>, Julio Romero <Julio.Romero-Prieto@lshtm.ac.uk>
 Maintainer: Andrea Verhulst <verhulst@sas.upenn.edu>

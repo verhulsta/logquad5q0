@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Modeling Age Pattern of Under-5 Mortality
+# Modeling Age Patterns of Under-5 Mortality
 
 <!-- badges: start -->
 <!-- badges: end -->
