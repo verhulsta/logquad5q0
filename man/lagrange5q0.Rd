@@ -21,7 +21,7 @@ Different age intervals are provived for the values of q(x), i.e. the cumulative
 Two types of 95\% confidence intervals (CIs) are automatically estimated: (1)	CIs based on the patterns of prediction errors observed in the underlying data when using a single mortality input (k = 0), (2) CIs based on the uncertainty of k when minimizing the RMSE over a full series of 22 q(x).
 }
 \description{
-\code{lagrange5q0} predicts a series of 22 under-5 q(x) and nMx based on one or more mortality inputs between 0 and 5 years.
+\code{lagrange5q0} predicts a series of 22 cumulative probabilities of dying (q(x)) and mortality rates (nMx) for the first 5 years of life, based on one or more mortality inputs between 0 and 5 years.
 }
 \details{
 \code{lagrange5q0} allows four types of mortality inputs:
