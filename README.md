@@ -60,19 +60,19 @@ years.
 
 This function allows four types of mortality inputs:
 
-1.  A single mortality input (either nMx and nqx) for any age interval.
+1.  A single mortality input (either nqx or nMx) for any age interval.
     The value of k will be assumed equal to 0 (average outcome of the
     model) and the value of the mortality input will be matched exactly.
 
-2.  A single mortality input (either nMx and nqx) for any age interval
+2.  A single mortality input (either nqx or nMx) for any age interval
     and a value of k. Both the mortality input and the value of k and
     will be matched exactly.
 
-3.  Two mortality inputs (either nMx and nqx) for any age interval. The
+3.  Two mortality inputs (either nqx or nMx) for any age interval. The
     value of k will be estimated and the value of the two mortality
     inputs will be matched exactly.
 
-4.  More than two mortality inputs (either nMx and nqx) for any age
+4.  More than two mortality inputs (either nqx or nMx) for any age
     interval. One of them must be selected for matching. The value of k
     will be estimated, the selected input will be matched exactly, and
     the root mean square error will be minimized over the remaining
@@ -144,7 +144,7 @@ The log-quadratic model is based on a set of vital records from Western
 countries. Predictions based on values of q(5y) above 0.150 and on
 values of k below -1.1 or above +1.5 are extrapolations. A warning
 message will be produced when such cases occur. Beyond these limits, it
-also might be impossible to converge to a solution. An error messages
+also might be impossible to converge to a solution. An error message
 will be produced in such case.
 
 ## Examples
