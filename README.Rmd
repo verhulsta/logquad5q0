@@ -41,7 +41,7 @@ To report issues or suggest improvements, please contact verhulst\@sas.upenn.edu
 
 * **Andrea Verhulst** - *Development of the R code and package.* - [web page](https://www.pop.upenn.edu/bio/andrea-verhulst)
 
-* **Julio Romero** - *Analytical development of the method of Langrage for solving the log-quadratic model.* - [web page](https://www.lshtm.ac.uk/aboutus/people/romero-prieto.julio)
+* **Julio Romero** - *Analytical development of the method of Langrage for solving the log-quadratic model (under MATLAB).* - [web page](https://www.lshtm.ac.uk/aboutus/people/romero-prieto.julio)
 
 
 

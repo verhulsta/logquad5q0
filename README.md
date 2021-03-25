@@ -36,7 +36,7 @@ verhulst@sas.upenn.edu.
     [web page](https://www.pop.upenn.edu/bio/andrea-verhulst)
 
 -   **Julio Romero** - *Analytical development of the method of Langrage
-    for solving the log-quadratic model.* - [web
+    for solving the log-quadratic model (under MATLAB).* - [web
     page](https://www.lshtm.ac.uk/aboutus/people/romero-prieto.julio)
 
 ## Installation
