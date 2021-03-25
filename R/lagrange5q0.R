@@ -17,13 +17,13 @@
 #'
 #' @details \code{lagrange5q0} allows four types of mortality inputs:
 #'
-#' 1.	A single mortality input (either nMx and nqx) for any age interval. The value of k will be assumed equal to 0 (average outcome of the model) and the value of the mortality input will be matched exactly.
+#' 1.	A single mortality input (either nqx or nMx) for any age interval. The value of k will be assumed equal to 0 (average outcome of the model) and the value of the mortality input will be matched exactly.
 #'
-#' 2.	A single mortality input (either nMx and nqx) for any age interval and a value of k. Both the mortality input and the value of k and will be matched exactly.
+#' 2.	A single mortality input (either nqx or nMx) for any age interval and a value of k. Both the mortality input and the value of k and will be matched exactly.
 #'
-#' 3.	Two mortality inputs (either nMx and nqx) for any age interval. The value of k will be estimated and the value of the two mortality inputs will be matched exactly.
+#' 3.	Two mortality inputs (either nqx or nMx) for any age interval. The value of k will be estimated and the value of the two mortality inputs will be matched exactly.
 #'
-#' 4.	More than two mortality inputs (either nMx and nqx) for any age interval. One of them must be selected for matching. The value of k will be estimated, the selected input will be matched exactly, and the root mean square error will be minimized over the remaining mortality inputs.
+#' 4.	More than two mortality inputs (either nqx or nMx) for any age interval. One of them must be selected for matching. The value of k will be estimated, the selected input will be matched exactly, and the root mean square error will be minimized over the remaining mortality inputs.
 #'
 #'The computation of the root mean square error (RMSE) can be weighted. When minimizing a series of q(x), i.e. cumulative probabilities of dying starting at age 0, we recommend using weights proportional to the length of the last age interval (see fourth example below).
 #'
