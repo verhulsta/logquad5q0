@@ -33,7 +33,7 @@
 #'
 #' @examples
 #'#1. One input (k = 0): q(28d,5y) (Jordan 2015)
-#'df <- format_data(
+#'input <- format_data(
 #'  rate      = 0.00804138,
 #'  lower_age = 28,
 #'  upper_age = 365.25*5,
@@ -41,11 +41,11 @@
 #'  fit       = "match",
 #'  sex       = "total")
 #'
-#'lagrange5q0(df)
+#'lagrange5q0(data = input)
 #'
 #'
 #'#2. One input and k = 0.5: q(28d,5y) (Jordan 2015)
-#'df <- format_data(
+#'input <- format_data(
 #'  rate      = 0.00804138,
 #'  lower_age = 28,
 #'  upper_age = 365.25*5,
@@ -53,24 +53,24 @@
 #'  fit       = "match",
 #'  sex       = "total")
 #'
-#'lagrange5q0(df, k = 0.5)
+#'lagrange5q0(data = input, k = 0.5)
 #'
 #'
 #'#3. Two inputs: q(0,1y) and q(1y,4y) (Belgium 1984)
-#'df <- format_data(
+#'input <- format_data(
 #'  lower_age = c(0,365.25),
 #'  upper_age = c(365.25,365.25*5),
 #'  rate      = c(0.00996356, 0.00207788),
 #'  type      = c("qx", "qx"),
 #'  sex       = c("male", "male"))
 #'
-#'lagrange5q0(df)
+#'lagrange5q0(data = input)
 #'
 #'
 #'#4. 22 inputs + 1 match: q(x) (Finland 1933)
 #'data(fin1933)
 #'fin1933$weight <- c(fin1933$n[1:22]/(365.25*5), NA)
-#'df <- format_data(
+#'input <- format_data(
 #'  lower_age = fin1933$lower_age,
 #'  upper_age = fin1933$upper_age,
 #'  rate      = fin1933$rate,
@@ -79,7 +79,7 @@
 #'  fit       = fin1933$fit,
 #'  weight    = fin1933$weight)
 #'
-#'lagrange5q0(df)
+#'lagrange5q0(data = input)
 
 
 
