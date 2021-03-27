@@ -101,13 +101,13 @@ lagrange5q0 <- function(data,k){
     par <- newton(data,pred,0)
   } else {
     if(nrow(data) > 1  )                stop('k cannot be constrained with more than one input')
-    if(k < -1 | k > 1  )                warning('Input value of k extrapolated. k < -1.1 or k > 1.5.')
+    if(k < -1.1 | k > 1.5 )                warning('Input value of k extrapolated. k < -1.1 or k > 1.5.')
     par <- newton(data,pred,k)
   }
 
   if(par[1] == "error")                 stop("Model cannot find sensical solution.")
 
-  if(par$k  < -1 | par$k  > 1  )        warning('Predicted value of k extrapolated. k < -1.1 or k > 1.5.')
+  if(pk < -1.1| k > 1.5)        warning('Predicted value of k extrapolated. k < -1.1 or k > 1.5.')
   if(exp(par$h) > 0.150)                warning('Predicted value of q(5y) extrapolated. q(5y) > 0.150.')
 
   pred$p_qx <- logquad(pred,par$h, par$k)
@@ -156,8 +156,8 @@ lagrange5q0 <- function(data,k){
   if(par$k == 0 & nrow(data) == 1){
     check <- 2
 
-    par1<- newton(data,pred,  .9326604629)
-    par2<- newton(data,pred, -.6309482410)
+    par1<- newton(data,pred,  .9327)
+    par2<- newton(data,pred, -.6309)
 
     if(par1[1] == "error" | par2[1] == "error")      warning('Model cannot converge to a solution for confidence interval.')
     if(par1[1] == "error" | par2[1] == "error"){
@@ -166,8 +166,8 @@ lagrange5q0 <- function(data,k){
 
     }else{
 
-      pred$lower_p_qx  <- logquad(pred,par1$h, .9326604629)
-      pred$upper_p_qx  <- logquad(pred,par2$h, -.6309482410)
+      pred$lower_p_qx  <- logquad(pred,par1$h,  .9327)
+      pred$upper_p_qx  <- logquad(pred,par2$h, -.6309)
       pred$lower_p_mx  <- qx_to_mx(pred$lower_p_qx)
       pred$upper_p_mx  <- qx_to_mx(pred$upper_p_qx)
 
