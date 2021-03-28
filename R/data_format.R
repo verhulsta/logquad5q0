@@ -98,7 +98,7 @@ format_data <- function(lower_age, upper_age, rate, type, sex, fit, weight){
   }
 
   if(missing(weight) == F){
-    if(length(lower_age) != length(weight))     stop('Variabless must have the same length.')
+    if(length(lower_age) != length(weight))     stop('Variables must have the same length.')
   }
 
   if(!is.numeric(lower_age))    stop('"lower_age" must be numeric.')
