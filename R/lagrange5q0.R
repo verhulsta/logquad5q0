@@ -99,13 +99,13 @@ lagrange5q0 <- function(data,k){
     par <- newton(data,pred,0)
   } else {
     if(nrow(data) > 1  )                stop('k cannot be constrained with more than one input')
-    if(k < -1.1 | k > 1.5 )                warning('Input value of k extrapolated. k < -1.1 or k > 1.5.')
+    if(k < -1.1 | k > 1.5 )             warning('Input value of k extrapolated. k < -1.1 or k > 1.5.')
     par <- newton(data,pred,k)
   }
 
   if(par[1] == "error")                 stop("Model cannot find sensical solution.")
 
-  if(pk < -1.1| k > 1.5)        warning('Predicted value of k extrapolated. k < -1.1 or k > 1.5.')
+  if(k < -1.1| k > 1.5)                warning('Predicted value of k extrapolated. k < -1.1 or k > 1.5.')
   if(exp(par$h) > 0.150)                warning('Predicted value of q(5y) extrapolated. q(5y) > 0.150.')
 
   pred$p_qx <- logquad(pred,par$h, par$k)
