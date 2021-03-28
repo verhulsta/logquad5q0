@@ -38,7 +38,6 @@
 #'  lower_age = 28,
 #'  upper_age = 365.25*5,
 #'  type      = "qx",
-#'  fit       = "match",
 #'  sex       = "total")
 #'
 #'lagrange5q0(data = input)
@@ -50,7 +49,6 @@
 #'  lower_age = 28,
 #'  upper_age = 365.25*5,
 #'  type      = "qx",
-#'  fit       = "match",
 #'  sex       = "total")
 #'
 #'lagrange5q0(data = input, k = 0.5)
