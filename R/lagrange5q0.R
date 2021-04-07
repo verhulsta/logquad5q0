@@ -141,12 +141,12 @@ lagrange5q0 <- function(data,k){
     if(is.unsorted(pred$lower_p_qx) |
        is.unsorted(pred$upper_p_qx)){
       pred <- pred[,c("lower_age", "lower_age_m", "upper_age", "p_qx", "p_mx")]
-      names(pred)[1] <- "low_age_q"
+      names(pred)[1] <- "lower_age_q"
     }else{
       pred <- pred[,c("lower_age", "lower_age_m", "upper_age",
                       "p_qx", "lower_p_qx", "upper_p_qx",
                       "p_mx", "lower_p_mx", "upper_p_mx")]
-      names(pred)[1] <- "low_age_q"
+      names(pred)[1] <- "lower_age_q"
     }
   }
 
@@ -160,7 +160,7 @@ lagrange5q0 <- function(data,k){
     if(par1[1] == "error" | par2[1] == "error")      warning('Model cannot converge to a solution for confidence interval.')
     if(par1[1] == "error" | par2[1] == "error"){
       pred <- pred[,c("lower_age", "lower_age_m", "upper_age", "p_qx", "p_mx")]
-      names(pred)[1] <- "low_age_q"
+      names(pred)[1] <- "lower_age_q"
 
     }else{
 
@@ -183,7 +183,7 @@ lagrange5q0 <- function(data,k){
         pred <- pred[,c("lower_age", "lower_age_m", "upper_age",
                         "p_qx", "lower_p_qx", "upper_p_qx",
                         "p_mx", "lower_p_mx", "upper_p_mx")]
-        names(pred)[1] <- "low_age_q"
+        names(pred)[1] <- "lower_age_q"
       }
     }
   }
@@ -191,7 +191,7 @@ lagrange5q0 <- function(data,k){
 
   if(check == 0){
     pred <- pred[,c("lower_age", "lower_age_m", "upper_age", "p_qx", "p_mx")]
-    names(pred)[1] <- "low_age_q"
+    names(pred)[1] <- "lower_age_q"
   }
 
   return(list( "q(5y)"       = exp(par$h),
