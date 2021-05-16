@@ -154,8 +154,8 @@ lagrange5q0 <- function(data,k){
   if(par$k == 0 & nrow(data) == 1){
     check <- 2
 
-    par1<- newton(data,pred,  .9327)
-    par2<- newton(data,pred, -.6309)
+    par1<- newton(data,pred,  .9314)
+    par2<- newton(data,pred, -.6300)
 
     if(par1[1] == "error" | par2[1] == "error")      warning('Model cannot converge to a solution for confidence interval.')
     if(par1[1] == "error" | par2[1] == "error"){
@@ -164,8 +164,8 @@ lagrange5q0 <- function(data,k){
 
     }else{
 
-      pred$lower_p_qx  <- logquad(pred,par1$h,  .9327)
-      pred$upper_p_qx  <- logquad(pred,par2$h, -.6309)
+      pred$lower_p_qx  <- logquad(pred,par1$h,  .9314)
+      pred$upper_p_qx  <- logquad(pred,par2$h, -.6300)
       pred$lower_p_mx  <- qx_to_mx(pred$lower_p_qx)
       pred$upper_p_mx  <- qx_to_mx(pred$upper_p_qx)
 
