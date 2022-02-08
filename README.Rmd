@@ -20,12 +20,12 @@ knitr::opts_chunk$set(
 
 
 
-**Working Paper**: [Guillot M., J. Romero Prieto, A. Verhulst, P. Gerland. *Modeling Age Patterns of Under-5 Mortality: Results From a Log-Quadratic Model Applied to High-Quality Vital Registration Data*](https://repository.upenn.edu/psc_publications/54/).
+**Paper**: [Guillot M., J. Romero Prieto, A. Verhulst, P. Gerland. *Modeling Age Patterns of Under-5 Mortality: Results From a Log-Quadratic Model Applied to High-Quality Vital Registration Data*](https://read.dukeupress.edu/demography/article/59/1/321/293847/Modeling-Age-Patterns-of-Under-5-Mortality-Results).
 
 
 ## Overview
 
-This repository contains the R package **logquad5q0** associated with the above-mentioned article (accepted in the journal *Demography*). 
+This repository contains the R package **logquad5q0** associated with the above-mentioned article published in the journal *Demography*. 
 
 The package uses the method of Lagrange to implement a log-quadratic model able to estimate the age pattern of under-5 mortality by detailed age. A variety of mortality inputs between 0 and 5 years can be used in order to predict a series of 22 cumulative probabilities of dying (q(x)) and mortality rates (nMx) for the first 5 years of life.
 
