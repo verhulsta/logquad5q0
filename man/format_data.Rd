@@ -62,7 +62,6 @@ input <- format_data(
  lower_age = 28,
  upper_age = 365.25*5,
  type      = "qx",
- fit       = "match",
  sex       = "total")
 
 #Two inputs: q(0,1y) and q(1y,4y) (Belgium 1984)
