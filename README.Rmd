@@ -123,10 +123,10 @@ The function lagrange5q0 returns a list including:
 Different age intervals are provived for the values of q(x), i.e. the cumulative probabilities of dying between 0 and age x, and for the values nMx,  i.e. the central death rates between x and x+n.
 
 
-Two types of 95% confidence intervals (CIs) are automatically provided:
+Two types of 95% confidence intervals (CIs) are automatically provided when:
 
-*	CIs based on the patterns of prediction errors observed in the underlying data when using a single mortality input (k = 0).
-*	CIs based on the uncertainty of k when minimizing the RMSE over a full series of 22 q(x). 
+*	CIs are based on the patterns of prediction errors observed in the underlying data when using a single mortality input (k = 0).
+*	CIs are based on the uncertainty of k when minimizing the RMSE over a full series of 22 q(x). 
 
 
 

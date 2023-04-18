@@ -6,15 +6,15 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-**Working Paper**: [Guillot M., J. Romero Prieto, A. Verhulst, P.
-Gerland. *Modeling Age Patterns of Under-5 Mortality: Results From a
+**Paper**: [Guillot M., J. Romero Prieto, A. Verhulst, P. Gerland.
+*Modeling Age Patterns of Under-5 Mortality: Results From a
 Log-Quadratic Model Applied to High-Quality Vital Registration
-Data*](https://repository.upenn.edu/psc_publications/54/).
+Data*](https://read.dukeupress.edu/demography/article/59/1/321/293847/Modeling-Age-Patterns-of-Under-5-Mortality-Results).
 
 ## Overview
 
 This repository contains the R package **logquad5q0** associated with
-the above-mentioned article (accepted in the journal *Demography*).
+the above-mentioned article published in the journal *Demography*.
 
 The package uses the method of Lagrange to implement a log-quadratic
 model able to estimate the age pattern of under-5 mortality by detailed
@@ -32,12 +32,12 @@ verhulst@sas.upenn.edu.
 
 #### Authors of the package
 
--   **Andrea Verhulst** - *Development of the R code and package.* -
-    [web page](https://www.pop.upenn.edu/bio/andrea-verhulst)
+- **Andrea Verhulst** - *Development of the R code and package.* - [web
+  page](https://www.pop.upenn.edu/bio/andrea-verhulst)
 
--   **Julio Romero** - *Analytical development of the method of Langrage
-    for solving the log-quadratic model (under MATLAB).* - [web
-    page](https://www.lshtm.ac.uk/aboutus/people/romero-prieto.julio)
+- **Julio Romero** - *Analytical development of the method of Langrage
+  for solving the log-quadratic model (under MATLAB).* - [web
+  page](https://www.lshtm.ac.uk/aboutus/people/romero-prieto.julio)
 
 ## Installation
 
@@ -86,7 +86,7 @@ produce the results of the paper.
 
 \_
 
-Use the function **format\_data** to prepare and verify the mortality
+Use the function **format_data** to prepare and verify the mortality
 inputs.
 
 Age intervals must be defined with two exact ages *in days* (1 year =
@@ -123,20 +123,21 @@ the following age breakdowns:
 
 The function lagrange5q0 returns a list including:
 
--   The predicted value of q(5y).
--   The predicted value of k.
--   A data frame with predicted values of q(x) and nMx.
+- The predicted value of q(5y).
+- The predicted value of k.
+- A data frame with predicted values of q(x) and nMx.
 
 Different age intervals are provived for the values of q(x), i.e. the
 cumulative probabilities of dying between 0 and age x, and for the
 values nMx, i.e. the central death rates between x and x+n.
 
-Two types of 95% confidence intervals (CIs) are automatically provided:
+Two types of 95% confidence intervals (CIs) are automatically provided
+when:
 
--   CIs based on the patterns of prediction errors observed in the
-    underlying data when using a single mortality input (k = 0).
--   CIs based on the uncertainty of k when minimizing the RMSE over a
-    full series of 22 q(x).
+- CIs are based on the patterns of prediction errors observed in the
+  underlying data when using a single mortality input (k = 0).
+- CIs are based on the uncertainty of k when minimizing the RMSE over a
+  full series of 22 q(x).
 
 #### Caveat
 
@@ -150,6 +151,7 @@ will be produced in such case.
 ## Examples
 
 ``` r
+
 #1. One input (k = 0): q(28d,5y) (Jordan 2015)
 input <- format_data(
    rate      = 0.00804138,
