@@ -32,14 +32,14 @@ The package uses the method of Lagrange to implement a log-quadratic model able 
 
 Data and R code needed to replicate the coefficients of the log-quadratic model are available on the website of the Under-5 Mortality Database (U5MD): https://web.sas.upenn.edu/global-age-patterns-under-five-mortality/
 
-To report issues or suggest improvements, please contact verhulst\@sas.upenn.edu.
+To report issues or suggest improvements, please contact averhulst\@ced.uab.be.
 
 
 
 
 #### Authors of the package
 
-* **Andrea Verhulst** - *Development of the R code and package.* - [web page](https://www.pop.upenn.edu/bio/andrea-verhulst)
+* **Andrea Verhulst** - *Development of the R code and package.* - [web page](https://cedproves.uab.cat/directori/andrea-verhulst/)
 
 * **Julio Romero** - *Analytical development of the method of Langrage for solving the log-quadratic model (under MATLAB).* - [web page](https://www.lshtm.ac.uk/aboutus/people/romero-prieto.julio)
 
