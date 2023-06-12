@@ -28,12 +28,12 @@ Mortality Database (U5MD):
 <https://web.sas.upenn.edu/global-age-patterns-under-five-mortality/>
 
 To report issues or suggest improvements, please contact
-verhulst@sas.upenn.edu.
+averhulst@ced.uab.es.
 
 #### Authors of the package
 
 - **Andrea Verhulst** - *Development of the R code and package.* - [web
-  page](https://www.pop.upenn.edu/bio/andrea-verhulst)
+  page](https://cedproves.uab.cat/directori/andrea-verhulst/)
 
 - **Julio Romero** - *Analytical development of the method of Langrage
   for solving the log-quadratic model (under MATLAB).* - [web
