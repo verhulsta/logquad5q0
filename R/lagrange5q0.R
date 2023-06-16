@@ -6,7 +6,7 @@
 #' @author Andrea Verhulst, \email{verhulst@sas.upenn.edu}, Julio Romero \email{Julio.Romero-Prieto@lshtm.ac.uk}
 #' @param data  mortality inputs formated with \code{format_data}.
 #' @param k     constrained value of k (only when using a single mortality input).
-#' @return \code{lagrange5q0} returns a list including three elements: the predicted values of q(5y) and k, and a data frame with predicted values of q(x) and nMx.
+#' @return \code{lagrange5q0} returns a list including six elements: the predicted values of q(5y) and k, a data frame with predicted values of q(x) and nMx, and the predicted value of 1a0, 4a1, and 5a0.
 #'
 #' The boundaries of the age intervals are given in days (1 year = 365.25 days, 1 month = 30.4375 days).
 #'
@@ -21,9 +21,9 @@
 #'
 #' 2.	A single mortality input (either nqx or nMx) for any age interval and a value of k. Both the mortality input and the value of k and will be matched exactly.
 #'
-#' 3.	Two mortality inputs (either nqx or nMx) for any age interval. The value of k will be estimated and the value of the two mortality inputs will be matched exactly.
+#' 3.	Two mortality inputs (either nqx or nMx) for any age interval. For the purpose of estimating nax--the average number of years lived in the age interval x,x+n--with high precision, the proportion of infant deaths before 28 days or 3 months (z(28d) or z(3m)) can be used as second input along with another mortality input (either nqx or nMx) starting at age 0. The two mortality inputs will be matched exactly and the value of k will be estimated.
 #'
-#' 4.	More than two mortality inputs (either nqx or nMx) for any age interval. One of them must be selected for matching. The value of k will be estimated, the selected input will be matched exactly, and the root mean square error will be minimized over the remaining mortality inputs.
+#' 4.	More than two mortality inputs (either nqx or nMx) for any age interval. One of them must be selected for matching. The selected input will be matched exactly, the root mean square error will be minimized over the remaining mortality inputs, and the value of k will be estimated.
 #'
 #'The computation of the root mean square error (RMSE) can be weighted. When minimizing a series of q(x), i.e. cumulative probabilities of dying starting at age 0, we recommend using weights proportional to the length of the last age interval (see fourth example below).
 #'
@@ -64,8 +64,17 @@
 #'
 #'lagrange5q0(data = input)
 #'
+#'#4. Two inputs: M(0,1y) and z(28d) (Australia 1935)
+#"input <-  format_data(
+#'  lower_age = c(0,0),
+#'  upper_age = c(365.25, 28),
+#'  rate      = c(0.04196866, 0.68614291),
+#'  type      = c("mx", "zx"),
+#'  sex       = c("total", "total"))
 #'
-#'#4. 22 inputs + 1 match: q(x) (Finland 1933)
+#'lagrange5q0(data = input)
+#'
+#'#5. 22 inputs + 1 match: q(x) (Finland 1933)
 #'data(fin1933)
 #'fin1933$weight <- c(fin1933$n[1:22]/(365.25*5), NA)
 #'input <- format_data(
@@ -194,8 +203,28 @@ lagrange5q0 <- function(data,k){
     names(pred)[1] <- "lower_age_q"
   }
 
+
+  tmp     <- pred
+  tmp$n   <- (pred$upper_age - pred$lower_age_m)/365.25
+  tmp$lx  <- 1- pred$p_qx
+  tmp$dx  <- c(1,tmp$lx[-length(tmp$lx)]) - tmp$lx
+  tmp$Lx  <- tmp$dx/pred$p_mx
+
+  tmp$ID  <- ifelse(pred$lower_age_m >= 0 & pred$upper_age <= 365.25, 1, NA )
+  a0_1 <- round((sum(tmp$Lx*tmp$ID, na.rm = T) - 1*(1-tmp$p_qx[pred$upper_age == 365.25]))/tmp$p_qx[pred$upper_age == 365.25],4)
+
+  tmp$ID  <- ifelse(pred$lower_age_m >= 365.25 & pred$upper_age <= 365.25*5, 1, NA )
+  a1_4 <- round((sum(tmp$Lx*tmp$ID, na.rm = T) - 4*(1-tmp$p_qx[pred$upper_age == 365.25*5]))/(tmp$p_qx[pred$upper_age == 365.25*5]-tmp$p_qx[pred$upper_age == 365.25]),4)
+
+  tmp$ID  <- ifelse(pred$lower_age_m >= 0 & pred$upper_age <= 365.25*5, 1, NA )
+  a0_5 <- round((sum(tmp$Lx*tmp$ID, na.rm = T) - 5*(1-tmp$p_qx[pred$upper_age == 365.25*5]))/tmp$p_qx[pred$upper_age == 365.25*5],4)
+
+
   return(list( "q(5y)"       = exp(par$h),
                "k"           = par$k,
-               "predictions" = pred))
+               "predictions" = pred,
+               "1a0"         = a0_1,
+               "4a1"         = a1_4,
+               "5a0"         = a0_5))
 
 }

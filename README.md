@@ -20,7 +20,9 @@ The package uses the method of Lagrange to implement a log-quadratic
 model able to estimate the age pattern of under-5 mortality by detailed
 age. A variety of mortality inputs between 0 and 5 years can be used in
 order to predict a series of 22 cumulative probabilities of dying (q(x))
-and mortality rates (nMx) for the first 5 years of life.
+and mortality rates (nMx) for the first 5 years of life. Based on these
+outputs, the package also computes the average number of years lived in
+the age intervals 0-1, 1-4 and 0-5 (i.e., 1a0, 4a1, and 5a0).
 
 Data and R code needed to replicate the coefficients of the
 log-quadratic model are available on the website of the Under-5
@@ -28,7 +30,7 @@ Mortality Database (U5MD):
 <https://web.sas.upenn.edu/global-age-patterns-under-five-mortality/>
 
 To report issues or suggest improvements, please contact
-averhulst@ced.uab.es.
+<averhulst@ced.uab.es>.
 
 #### Authors of the package
 
@@ -68,15 +70,19 @@ This function allows four types of mortality inputs:
     and a value of k. Both the mortality input and the value of k and
     will be matched exactly.
 
-3.  Two mortality inputs (either nqx or nMx) for any age interval. The
-    value of k will be estimated and the value of the two mortality
-    inputs will be matched exactly.
+3.  Two mortality inputs (either nqx or nMx) for any age interval. For
+    the purpose of estimating nax–the average number of years lived in
+    the age interval x,x+n–with high precision, the proportion of infant
+    deaths before 28 days or 3 months (z(28d) or z(3m)) can be used as
+    second input along with another mortality input (either nqx or nMx)
+    starting at age 0. The two mortality inputs will be matched exactly
+    and the value of k will be estimated.
 
 4.  More than two mortality inputs (either nqx or nMx) for any age
-    interval. One of them must be selected for matching. The value of k
-    will be estimated, the selected input will be matched exactly, and
-    the root mean square error will be minimized over the remaining
-    mortality inputs.
+    interval. One of them must be selected for matching. The selected
+    input will be matched exactly, the root mean square error will be
+    minimized over the remaining mortality inputs, and the value of k
+    will be estimated.
 
 The computation of the root mean square error (RMSE) can be weighted.
 When minimizing a series of q(x), i.e. cumulative probabilities starting
@@ -126,6 +132,7 @@ The function lagrange5q0 returns a list including:
 - The predicted value of q(5y).
 - The predicted value of k.
 - A data frame with predicted values of q(x) and nMx.
+- The predicted value of 1a0, 4a1, and 5a0.
 
 Different age intervals are provived for the values of q(x), i.e. the
 cumulative probabilities of dying between 0 and age x, and for the
@@ -185,7 +192,18 @@ input <- format_data(
 lagrange5q0(data = input)
 
 
-#4. 22 inputs + 1 match: q(x) (Finland 1933)
+#4. Two inputs: M(0,1y) and z(28d) (Australia 1935)
+input <-  format_data(
+  lower_age = c(0,0),
+  upper_age = c(365.25, 28),
+  rate      = c(0.04196866, 0.68614291),
+  type      = c("mx", "zx"),
+  sex       = c("total", "total"))
+
+lagrange5q0(data = input)
+
+
+#5. 22 inputs + 1 match: q(x) (Finland 1933)
 data(fin1933)
 fin1933$weight <- c(fin1933$n[1:22]/(365.25*5), NA) 
 input <- format_data(

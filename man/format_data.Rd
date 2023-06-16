@@ -11,9 +11,9 @@ format_data(lower_age, upper_age, rate, type, sex, fit, weight)
 
 \item{upper_age}{Upper boundary of the age interval in days for each input (see details below for values).}
 
-\item{rate}{Mortality rate for each input.}
+\item{rate}{Value of mortality indicator for each input.}
 
-\item{type}{Character: 'qx' or 'mx'. Type of rate for each input.}
+\item{type}{Character: 'qx', 'mx', or 'zx'. Type of indicator: probability of dying, death rate, or proportion of infant deaths.}
 
 \item{sex}{Character: 'female', 'male', or 'total'. Same for all inputs.}
 
@@ -72,6 +72,12 @@ input <- format_data(
  type      = c("qx", "qx"),
  sex       = c("male", "male"))
 
+#Two inputs: M(0,1y) and z(28d) (Australia 1935)
+ lower_age = c(0,0),
+ upper_age = c(365.25, 28),
+ rate      = c(0.04196866, 0.68614291),
+ type      = c("mx", "zx"),
+ sex       = c("total", "total"))
 
 #22 inputs + 1 match: q(x) (Finland 1933)
 data(fin1933)

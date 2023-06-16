@@ -151,7 +151,7 @@ L <- function(data, pred, vect){
   l2 <-vect[4]
 
 
-  logquad(pred,h,k)
+  #logquad(pred,h,k)
   pred$p.qx <-  logquad(pred,h,k)
   pred$p.mx <-  qx_to_mx(pred$p.qx)
 
@@ -186,8 +186,8 @@ g <- function(data, pred){
   l <- tmp$lower_age[1]
   u <- tmp$upper_age[1]
   e <- exp(1)
-  pred$ID <- ifelse(pred$lower_age_m >= l & pred$upper_age <= u, 1, NA )
-
+  pred$ID    <- ifelse(pred$lower_age_m >= l & pred$upper_age <= u, 1, NA )
+  pred$ID12m <- ifelse(pred$upper_age <= 365.25, 1, NA )
 
   if(tmp$type[1] == "qx"){
     q    <-  1-e^-sum(pred$p.mx*(pred$n_d/365.25)*pred$ID,  na.rm = T)
@@ -202,6 +202,13 @@ g <- function(data, pred){
     g1        <- log(tmp$rate[1]) - log(m)
   }
 
+  if(tmp$type[1] == "zx"){
+    z          <- log(1-pred$p.qx[pred$upper_age == 28])/log(1-pred$p.qx[pred$upper_age == 365.25])
+    g1        <- log(tmp$rate[1]) - log(z)
+  }
+
+
+
 
 
   if(nrow(tmp) == 1){
@@ -212,7 +219,9 @@ g <- function(data, pred){
     l  <- tmp$lower_age[2]
     u  <- tmp$upper_age[2]
     e  <- exp(1)
-    pred$ID <- ifelse(pred$lower_age_m >= l & pred$upper_age <= u, 1, NA )
+    pred$ID    <- ifelse(pred$lower_age_m >= l & pred$upper_age <= u, 1, NA )
+    pred$ID12m <- ifelse(pred$upper_age <= 365.25, 1, NA )
+
 
     if(tmp$type[2] == "qx"){
       q  <-  1-e^-sum(pred$p.mx*(pred$n_d/365.25)*pred$ID,  na.rm = T)
@@ -227,6 +236,14 @@ g <- function(data, pred){
       g2   <- log(tmp$rate[2]) - log(m)
 
     }
+
+    if(tmp$type[2] == "zx"){
+      z          <- log(1-pred$p.qx[pred$upper_age == 28])/log(1-pred$p.qx[pred$upper_age == 365.25])
+      g2         <- log(tmp$rate[2]) - log(z)
+    }
+
+
+
   }
 
   rdif <- c(g1,g2)

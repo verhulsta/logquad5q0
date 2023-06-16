@@ -12,7 +12,7 @@ lagrange5q0(data, k)
 \item{k}{constrained value of k (only when using a single mortality input).}
 }
 \value{
-\code{lagrange5q0} returns a list including three elements: the predicted values of q(5y) and k, and a data frame with predicted values of q(x) and nMx.
+\code{lagrange5q0} returns a list including six elements: the predicted values of q(5y) and k, a data frame with predicted values of q(x) and nMx, and the predicted value of 1a0, 4a1, and 5a0.
 
 The boundaries of the age intervals are given in days (1 year = 365.25 days, 1 month = 30.4375 days).
 
@@ -28,8 +28,8 @@ Two types of 95\% confidence intervals (CIs) are automatically estimated: (1)	CI
 \enumerate{
 \item A single mortality input (either nqx or nMx) for any age interval. The value of k will be assumed equal to 0 (average outcome of the model) and the value of the mortality input will be matched exactly.
 \item A single mortality input (either nqx or nMx) for any age interval and a value of k. Both the mortality input and the value of k and will be matched exactly.
-\item Two mortality inputs (either nqx or nMx) for any age interval. The value of k will be estimated and the value of the two mortality inputs will be matched exactly.
-\item More than two mortality inputs (either nqx or nMx) for any age interval. One of them must be selected for matching. The value of k will be estimated, the selected input will be matched exactly, and the root mean square error will be minimized over the remaining mortality inputs.
+\item Two mortality inputs (either nqx or nMx) for any age interval. For the purpose of estimating nax--the average number of years lived in the age interval x,x+n--with high precision, the proportion of infant deaths before 28 days or 3 months (z(28d) or z(3m)) can be used as second input along with another mortality input (either nqx or nMx) starting at age 0. The two mortality inputs will be matched exactly and the value of k will be estimated.
+\item More than two mortality inputs (either nqx or nMx) for any age interval. One of them must be selected for matching. The selected input will be matched exactly, the root mean square error will be minimized over the remaining mortality inputs, and the value of k will be estimated.
 }
 
 The computation of the root mean square error (RMSE) can be weighted. When minimizing a series of q(x), i.e. cumulative probabilities of dying starting at age 0, we recommend using weights proportional to the length of the last age interval (see fourth example below).
@@ -69,8 +69,16 @@ input <- format_data(
 
 lagrange5q0(data = input)
 
+#4. Two inputs: M(0,1y) and z(28d) (Australia 1935)
+ lower_age = c(0,0),
+ upper_age = c(365.25, 28),
+ rate      = c(0.04196866, 0.68614291),
+ type      = c("mx", "zx"),
+ sex       = c("total", "total"))
 
-#4. 22 inputs + 1 match: q(x) (Finland 1933)
+lagrange5q0(data = input)
+
+#5. 22 inputs + 1 match: q(x) (Finland 1933)
 data(fin1933)
 fin1933$weight <- c(fin1933$n[1:22]/(365.25*5), NA)
 input <- format_data(

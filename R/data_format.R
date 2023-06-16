@@ -4,8 +4,8 @@
 
 #' @param lower_age Lower boundary of the age interval in days for each input (see details below for values).
 #' @param upper_age Upper boundary of the age interval in days for each input (see details below for values).
-#' @param rate  Mortality rate for each input.
-#' @param type  Character: 'qx' or 'mx'. Type of rate for each input.
+#' @param rate  Value of mortality indicator for each input.
+#' @param type  Character: 'qx', 'mx', or 'zx'. Type of indicator: probability of dying, death rate, or proportion of infant deaths.
 #' @param sex   Character: 'female', 'male', or 'total'. Same for all inputs.
 #' @param fit   Character: 'match' or 'min'. Needed only when there are more than 2 inputs. Select the input to be matched using 'match'. Use 'min' for all the other inputs.
 #' @param weigth Optional when there are more than 2 inputs: weight for inputs whose root mean square error is minimized. Use 0 or NA for the matched input. The sum of weights must be equal to 1.
@@ -64,6 +64,13 @@
 #'  type      = c("qx", "qx"),
 #'  sex       = c("male", "male"))
 #'
+#'#Two inputs: M(0,1y) and z(28d) (Australia 1935)
+#"input <-  format_data(
+#'  lower_age = c(0,0),
+#'  upper_age = c(365.25, 28),
+#'  rate      = c(0.04196866, 0.68614291),
+#'  type      = c("mx", "zx"),
+#'  sex       = c("total", "total"))
 #'
 #'#22 inputs + 1 match: q(x) (Finland 1933)
 #'data(fin1933)
@@ -124,8 +131,23 @@ format_data <- function(lower_age, upper_age, rate, type, sex, fit, weight){
                                       1095.7500, 1461.0000, 1826.2500))))                   stop('Wrong value for "upper_age".')
   if(F %in% (lower_age < upper_age))                                                        stop('"lower_age"   >  "upper_age".')
   if(T %in% (rate <= 0))                                                                    stop('"rates" must be > 0.')
-  if(F %in% (type   %in%   c("qx",  "mx")))                                                 stop('Wrong value for "type".')
+
   if(F %in% (sex    %in%   c("female",  "male", "total")))                                  stop('Wrong value for "sex".')
+
+  if(F %in% (type   %in%   c("qx",  "mx", "zx")))                                           stop('Wrong value for "type".')
+
+  if(T %in% (type   %in%   c("zx"))){
+
+    p <- which(type == "zx")
+    if(length(p) > 1)                                                                 stop('Only one z(x) can be matched.')
+
+    if(length(type) < 2)                                                              stop('z(x) can be matched only with another input (either mx or qx).')
+    if(length(type) > 2)                                                              stop('z(x) can be matched only with one single other input.')
+
+    if(F %in% (lower_age[1] == 0))                                                    stop('"lower_age" must be equal to 0 for both inputs when matching z(x)')
+    if(F %in% (lower_age[2] == 0))                                                    stop('"lower_age" must be equal to 0 for both inputs when matching z(x)')
+    if(F %in% (upper_age[p] == 28 | upper_age[p] == 91.3125))                         stop('"upper_age" must be equal to 28 or 91.3125 for z(x)')
+  }
 
   if(length(lower_age) == 1 | length(lower_age)  == 2){
 
@@ -138,6 +160,7 @@ format_data <- function(lower_age, upper_age, rate, type, sex, fit, weight){
     }
 
     if(missing(weight) == F)                           warning('"weight" not used with matching.')
+
   }
 
   df <-data.frame(
@@ -150,12 +173,16 @@ format_data <- function(lower_age, upper_age, rate, type, sex, fit, weight){
 
   if(length(lower_age) > 2){
 
+
+
+
     if(missing(fit))                                            stop('"fit" is missing.')
 
     if(F %in% (df$fit  %in%  c("min", "match")))                stop('Wrong value for fit.')
     if(F %in% ("match" %in% df$fit))                            stop('"match" is missing in "fit".')
     if(sum(    "match" == df$fit) > 1)                          stop('Only one input can be matched.')
     if(F %in% ("min"   %in% df$fit))                            stop('"min" is missing in "fit".')
+
 
 
     if(missing(weight) == F){
@@ -174,8 +201,7 @@ format_data <- function(lower_age, upper_age, rate, type, sex, fit, weight){
   return(list("input" = df,
               "format" = "checked"))
 
-
-}
+  }
 
 
 
