@@ -219,6 +219,7 @@ lagrange5q0 <- function(data,k){
   tmp$ID  <- ifelse(pred$lower_age_m >= 0 & pred$upper_age <= 365.25*5, 1, NA )
   a0_5 <- round((sum(tmp$Lx*tmp$ID, na.rm = T) - 5*(1-tmp$p_qx[pred$upper_age == 365.25*5]))/tmp$p_qx[pred$upper_age == 365.25*5],4)
 
+  rownames(pred) <- 1:nrow(pred)
 
   return(list( "q(5y)"       = exp(par$h),
                "k"           = par$k,
