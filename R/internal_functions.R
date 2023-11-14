@@ -203,7 +203,7 @@ g <- function(data, pred){
   }
 
   if(tmp$type[1] == "zx"){
-    z          <- log(1-pred$p.qx[pred$upper_age == 28])/log(1-pred$p.qx[pred$upper_age == 365.25])
+    z          <- log(1-pred$p.qx[pred$upper_age == u])/log(1-pred$p.qx[pred$upper_age == 365.25])
     g1        <- log(tmp$rate[1]) - log(z)
   }
 
@@ -238,7 +238,7 @@ g <- function(data, pred){
     }
 
     if(tmp$type[2] == "zx"){
-      z          <- log(1-pred$p.qx[pred$upper_age == 28])/log(1-pred$p.qx[pred$upper_age == 365.25])
+      z          <- log(1-pred$p.qx[pred$upper_age == u])/log(1-pred$p.qx[pred$upper_age == 365.25])
       g2         <- log(tmp$rate[2]) - log(z)
     }
 
