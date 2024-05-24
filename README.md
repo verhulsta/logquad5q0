@@ -6,10 +6,16 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-**Paper**: [Guillot M., J. Romero Prieto, A. Verhulst, P. Gerland.
+**Papers**: 
+
+[Guillot M., J. Romero Prieto, A. Verhulst, and P. Gerland.
 *Modeling Age Patterns of Under-5 Mortality: Results From a
-Log-Quadratic Model Applied to High-Quality Vital Registration
-Data*](https://read.dukeupress.edu/demography/article/59/1/321/293847/Modeling-Age-Patterns-of-Under-5-Mortality-Results).
+Log-Quadratic Model Applied to High-Quality Vital Registration Data*](https://read.dukeupress.edu/demography/article/59/1/321/293847/Modeling-Age-Patterns-of-Under-5-Mortality-Results).
+
+
+
+[J. Romero Prieto J. , A. Verhulst, and M. Guillot.
+*Estimating 1a0 and 4a1 in a Life Table: A Model Approach Based on Newly Collected Data*](https://doi.org/10.1215/00703370-11330227).
 
 ## Overview
 
