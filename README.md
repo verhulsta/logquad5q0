@@ -28,8 +28,7 @@ age. A variety of mortality inputs between 0 and 5 years can be used in
 order to predict a series of 22 cumulative probabilities of dying (q(x))
 and mortality rates (nMx) for the first 5 years of life. 
 
-Based on these outputs, the package also computes the average number of years lived in
-the age intervals 0-1, 1-4 and 0-5 (i.e., 1a0, 4a1, and 5a0).
+Based on these outputs, the package also computes the average number of years lived by those dying in the age intervals 0-1, 1-4 and 0-5 (i.e., 1a0, 4a1, and 5a0).
 
 Data and R code needed to replicate the coefficients of the
 log-quadratic model are available on the website of the Under-5
