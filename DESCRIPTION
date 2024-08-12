@@ -1,7 +1,7 @@
 Package: logquad5q0
 Type: Package
 Title: Modeling Age Patterns of Under-5 Mortality
-Version: 0.1.0
+Version: 0.2.0
 Author: Andrea Verhulst <verhulst@sas.upenn.edu>, Julio Romero <Julio.Romero-Prieto@lshtm.ac.uk>
 Maintainer: Andrea Verhulst <verhulst@sas.upenn.edu>
 Description: The package uses the method of Lagrange to implement a log-quadratic model able to estimate the age pattern of under-5 mortality by detailed age. A variety mortality inputs between 0 and 5 years can be used in order to predict a series of 22 cumulative probabilities of dying (q(x)) and mortality rates (nMx) for the first 5 years of life. 
