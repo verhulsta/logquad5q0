@@ -4,7 +4,7 @@
 #'
 #' @docType data
 #'
-#' @references \url{https://repository.upenn.edu/psc_publications/54/}.
+#' @references \url{https://doi.org/10.1215/00703370-9709538}
 #'
 #' @source Under-Five Mortality Database (U5MD)
 

@@ -5,7 +5,7 @@
 \alias{coef}
 \title{logquad coefficients}
 \format{
-An object of class \code{data.frame} with 66 rows and 10 columns.
+An object of class \code{data.frame} with 132 rows and 10 columns.
 }
 \usage{
 coef
@@ -14,6 +14,6 @@ coef
 logquad coefficients
 }
 \references{
-\url{https://repository.upenn.edu/entities/publication/6d886c12-6b09-4ab3-a072-c4b461ad29e9}.
+\url{https://doi.org/10.1215/00703370-9709538}.
 }
 \keyword{datasets}
