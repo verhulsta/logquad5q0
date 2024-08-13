@@ -2,10 +2,12 @@
 #'
 #' @description \code{lagrange5q0} predicts a series of 22 cumulative probabilities of dying (q(x)) and mortality rates (nMx) for the first 5 years of life, based on one or more mortality inputs between 0 and 5 years.
 #'
-#' @references \code{lagrange5q0} uses the  method of Langrage in order to solve the log-quadratic model presented in \url{https://repository.upenn.edu/psc_publications/54/}.
-#' @author Andrea Verhulst, \email{verhulst@sas.upenn.edu}, Julio Romero \email{Julio.Romero-Prieto@lshtm.ac.uk}
-#' @param data  mortality inputs formated with \code{format_data}.
-#' @param k     constrained value of k (only when using a single mortality input).
+#' @references \code{lagrange5q0} uses the  method of Langrage in order to solve the log-quadratic model presented in \url{https://doi.org/10.1215/00703370-9709538}.
+#' @author Andrea Verhulst, \email{andrea.verhulst@ined.fr}, Julio Romero \email{Julio.Romero-Prieto@lshtm.ac.uk}
+#' @param data    mortality inputs formated with \code{format_data}.
+#' @param k       constrained value of k (only when using a single mortality input).
+#' @param model   Character: 'A' (default) or 'B'.
+#' @param region  Character: 'Eastern Africa', 'Middle Africa', 'Western Africa', or 'South Asia' (only for Model B).
 #' @return \code{lagrange5q0} returns a list including six elements: the predicted values of q(5y) and k, a data frame with predicted values of q(x) and nMx, and the predicted value of 1a0, 4a1, and 5a0.
 #'
 #' The boundaries of the age intervals are given in days (1 year = 365.25 days, 1 month = 30.4375 days).
@@ -25,9 +27,13 @@
 #'
 #' 4.	More than two mortality inputs (either nqx or nMx) for any age interval. One of them must be selected for matching. The selected input will be matched exactly, the root mean square error will be minimized over the remaining mortality inputs, and the value of k will be estimated.
 #'
-#'The computation of the root mean square error (RMSE) can be weighted. When minimizing a series of q(x), i.e. cumulative probabilities of dying starting at age 0, we recommend using weights proportional to the length of the last age interval (see fourth example below).
+#'The computation of the root mean square error (RMSE) can be weighted. When minimizing a series of q(x), i.e. cumulative probabilities of dying starting at age 0, we recommend using weights proportional to the length of the last age interval (see example 5 below).
 #'
 #'Use \code{format_data} to prepare and verify the mortality inputs.
+#'
+#'
+#' BETA VERSION: To use coefficients for sub-Saharan Africa and south Asia, specify 'B' for the parameter 'model'. In the case scenario of having a single mortality input and no information on the value of k, the user can specify the parameter 'region' ('Eastern Africa', 'Middle Africa', 'Western Africa', or 'South Asia') in order to benefit from a regional prior of k instead of assuming k = 0 (see example 6 below)
+#'
 #'
 #' @export
 #'
@@ -87,43 +93,139 @@
 #'  weight    = fin1933$weight)
 #'
 #'lagrange5q0(data = input)
+#'
+#'#6. One input (Model B & regional k) : q(5y) (DHS DR Congo 2013-14)
+#'input <- format_data(
+#'  rate      = 0.10924,
+#'  lower_age = 0,
+#'  upper_age = 365.25*5,
+#'  type      = "qx",
+#'  sex       = "total")
+#'
+#'lagrange5q0(data = input, model = 'B', region = "Middle Africa")
 
 
 
-lagrange5q0 <- function(data,k){
+lagrange5q0 <- function(data,k, model, region){
 
-  if(F == ("format" %in% names(data)))             stop('Inputs were no formated with "format_data".')
+  if(F == ("format" %in% names(data)))                     stop('Inputs were no formated with "format_data".')
   data <- data$input
 
+
+  if(missing(k) == F){
+    if(!is.numeric(k))                                     stop('k must be numeric.')
+  }
+  if(missing(model) == F){
+    if(!is.character(model))                               stop('"model" must be a character string.')
+  }
+  if(missing(region) == F){
+    if(!is.character(region))                              stop('"region" must be a character string.')
+  }
+
+
+
+  if(missing(model) == F){
+    if(F %in% (model   %in%   c("A","B")))                 stop('Wrong value for "model". Use "A" or "B".')
+  }else{
+    model <- "A"
+  }
+
+  if(model == 'A' & missing(region) == F){
+    region <- 'Model A'
+                                                           warning('"region" ignored with (default) model "A". Use "region" only with Model "B".')
+  }
+  if(model == 'A' & missing(region) == T){
+    region <- 'Model A'
+  }
+
+  data(k_bounds)
+  if(model == 'A'){
+  bound_max <- k_bounds1$max[k_bounds1$region == 'Model A' & k_bounds1$sex == unique(data$sex)]
+  bound_min <- k_bounds1$min[k_bounds1$region == 'Model A' & k_bounds1$sex == unique(data$sex)]
+  q5 <- 0.150
+  }else{
+  bound_max <- k_bounds1$max[k_bounds1$region == 'Model B' & k_bounds1$sex == unique(data$sex)]
+  bound_min <- k_bounds1$min[k_bounds1$region == 'Model B' & k_bounds1$sex == unique(data$sex)]
+  q5 <- 0.330
+  }
+
+
+  if(model %in%   c("B")){
+    data(coef_B)
+    pred <- subset(coef, sex == unique(data$sex))
+  }else{
   data(coef)
-  pred <- subset(coef, sex == unique(data$sex))
+    pred <- subset(coef, sex == unique(data$sex))
+  }
+
+
+  data(k_bounds)
 
 
   if(nrow(data) > 1){
-  if(sum(c(0,7,14,21) %in% data$lower_age) == 0)    warning('No mortality input starting at age 0. Select a single mortality input instead for stable results.')
+  if(sum(c(0,7,14,21) %in% data$lower_age) == 0)           warning('No mortality input starting at age 0. Select a single mortality input instead for stable results.')
   }
 
 
-  if(missing(k)) {
+  k_r <- NULL
+
+  if(nrow(data) > 1){
+    if(missing(k) == F)                                    stop('k cannot be constrained with more than one input.')
+    if(model == 'B' & missing(region) == F){
+      region <- 'Model B'
+                                                           warning('"region" ignored with more than one input.')
+    }
+    if(model == 'B'){region <- 'Model B'}
     par <- newton(data,pred,0)
-  } else {
-    if(nrow(data) > 1  )                stop('k cannot be constrained with more than one input')
-    if(k < -1.1 | k > 1.5 )             warning('Input value of k extrapolated. k < -1.1 or k > 1.5.')
-    par <- newton(data,pred,k)
+  }else{
+    if(missing(k) == F){
+
+      if(k < bound_min | k > bound_max)                    warning(paste('Input value of k extrapolated. k <', round(bound_min,1), 'or k >', round(bound_max,1)))
+
+      if(model == 'B' & missing(region) == F){
+                                                           warning('"region" ignored when providing a value of k.')
+      }
+      if(model == 'B'){region <- 'Model B'}
+
+      par <- newton(data,pred,k)
+
+    }else{
+      if(model == 'B' & missing(region) == F){
+        if(F %in% (region   %in%   c("Eastern Africa",
+                                     "Middle Africa",
+                                     "Western Africa",
+                                     "South Asia")))       stop('Wrong value for "region". Choose "Eastern Africa", "Middle Africa",  "Western Africa", or "South Asia".')
+      }
+
+      if(model == 'B' & missing(region) == T){
+        region <- 'Model B'
+                                                           warning('"region" not specified. Averaged value of model "B" used (k = 0).')
+      }
+
+      k_r   <- k_bounds2$p50[k_bounds2$region   == region & k_bounds2$sex == unique(data$sex)]
+      par <- newton(data,pred,k_r)
+    }
   }
 
-  if(par[1] == "error")                 stop("Model cannot find sensical solution.")
 
-  if(par$k < -1.1| par$k > 1.5)         warning('Predicted value of k extrapolated. k < -1.1 or k > 1.5.')
-  if(exp(par$h) > 0.150)                warning('Predicted value of q(5y) extrapolated. q(5y) > 0.150.')
+
+
+  if(par[1] == "error")                                    stop("Model cannot find sensical solution.")
+
+  if(par$k < bound_min | par$k > bound_max)                warning(paste('Predicted value of k extrapolated. k <', round(bound_min,1), 'or k >', round(bound_max,1)))
+  if(exp(par$h) > q5)                                      warning(paste('Predicted value of q(5y) extrapolated. q(5y) >', q5))
 
   pred$p_qx <- logquad(pred,par$h, par$k)
-  if(is.unsorted(pred$p_qx))            stop('Model cannot converge to a solution.')
+  if(is.unsorted(pred$p_qx))                               stop('Model cannot converge to a solution.')
 
   pred$p_mx <- qx_to_mx(pred$p_qx)
-  if(is.unsorted(rev(pred$p_mx)))       warning('Increase with age in the force of mortality (nMx). Prediction extrapolated.')
+  if(model == 'A'){
+  if(is.unsorted(rev(pred$p_mx)))                          warning('Increase with age in the force of mortality (nMx). Prediction extrapolated.')
+  }
 
 
+  bound_max_ci <- k_bounds2$p97.5[k_bounds2$region == region & k_bounds2$sex == unique(data$sex)]
+  bound_min_ci <- k_bounds2$p2.5[k_bounds2$region  == region & k_bounds2$sex == unique(data$sex)]
 
 
   check <- 0
@@ -142,11 +244,11 @@ lagrange5q0 <- function(data,k){
     pred$upper_p_mx  <- qx_to_mx(pred$upper_p_qx)
 
     if(is.unsorted(pred$lower_p_qx) |
-       is.unsorted(pred$upper_p_qx))        warning('Model cannot converge to a solution for confidence interval.')
-
+       is.unsorted(pred$upper_p_qx))                       warning('Model cannot converge to a solution for confidence interval.')
+    if(model == 'A'){
     if(is.unsorted(rev(pred$lower_p_mx)) |
-       is.unsorted(rev(pred$upper_p_mx)))   warning('Increase with age in the force of mortality (nMx) in confidence interval. Values extrapolated.')
-
+       is.unsorted(rev(pred$upper_p_mx)))                  warning('Increase with age in the force of mortality (nMx) in confidence interval. Values extrapolated.')
+    }
     if(is.unsorted(pred$lower_p_qx) |
        is.unsorted(pred$upper_p_qx)){
       pred <- pred[,c("lower_age", "lower_age_m", "upper_age", "p_qx", "p_mx")]
@@ -160,30 +262,30 @@ lagrange5q0 <- function(data,k){
   }
 
 
-  if(par$k == 0 & nrow(data) == 1){
+  if(length(k_r) > 0 & nrow(data) == 1){
     check <- 2
 
-    par1<- newton(data,pred,  .9314)
-    par2<- newton(data,pred, -.6300)
+    par1<- newton(data,pred,  bound_max_ci)
+    par2<- newton(data,pred,  bound_min_ci)
 
-    if(par1[1] == "error" | par2[1] == "error")      warning('Model cannot converge to a solution for confidence interval.')
+    if(par1[1] == "error" | par2[1] == "error")            warning('Model cannot converge to a solution for confidence interval.')
     if(par1[1] == "error" | par2[1] == "error"){
       pred <- pred[,c("lower_age", "lower_age_m", "upper_age", "p_qx", "p_mx")]
       names(pred)[1] <- "lower_age_q"
 
     }else{
 
-      pred$lower_p_qx  <- logquad(pred,par1$h,  .9314)
-      pred$upper_p_qx  <- logquad(pred,par2$h, -.6300)
+      pred$lower_p_qx  <- logquad(pred,par1$h,  bound_max_ci)
+      pred$upper_p_qx  <- logquad(pred,par2$h,  bound_min_ci)
       pred$lower_p_mx  <- qx_to_mx(pred$lower_p_qx)
       pred$upper_p_mx  <- qx_to_mx(pred$upper_p_qx)
 
       if(is.unsorted(pred$p.qx_lowerCI) |
-         is.unsorted(pred$p.qx_upperCI))             warning('Model cannot converge to a solution for confidence interval.')
-
+         is.unsorted(pred$p.qx_upperCI))                   warning('Model cannot converge to a solution for confidence interval.')
+      if(model == 'A'){
       if(is.unsorted(rev(pred$p.mx_lowerCI)) |
-         is.unsorted(rev(pred$p.mx_upperCI)))        warning('Increase with age in the force of mortality (nMx) in confidence interval. Values extrapolated.')
-
+         is.unsorted(rev(pred$p.mx_upperCI)))              warning('Increase with age in the force of mortality (nMx) in confidence interval. Values extrapolated.')
+      }
       if(is.unsorted(pred$p.qx_lowerCI) |
          is.unsorted(pred$p.qx_upperCI)){
         pred <- pred[,c("lower_age", "lower_age_m", "upper_age", "p_qx", "p_mx")]

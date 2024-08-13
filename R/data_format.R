@@ -8,7 +8,7 @@
 #' @param type  Character: 'qx', 'mx', or 'zx'. Type of indicator: probability of dying, death rate, or proportion of infant deaths.
 #' @param sex   Character: 'female', 'male', or 'total'. Same for all inputs.
 #' @param fit   Character: 'match' or 'min'. Needed only when there are more than 2 inputs. Select the input to be matched using 'match'. Use 'min' for all the other inputs.
-#' @param weigth Optional when there are more than 2 inputs: weight for inputs whose root mean square error is minimized. Use 0 or NA for the matched input. The sum of weights must be equal to 1.
+#' @param weigth Recommended when there are more than 2 inputs: weight for inputs whose root mean square error is minimized. Use 0 or NA for the matched input. The sum of weights must be equal to 1.
 #'
 #' @return \code{format_data} returns a data frame with the formated mortality inputs ready for the implementation of \code{lagrange5q0}.
 #'
@@ -83,6 +83,14 @@
 #'  sex       = fin1933$sex,
 #'  fit       = fin1933$fit,
 #'  weight    = fin1933$weight)
+#'
+#'#One input (Model B & regional k) : q(5y) (DHS DR Congo 2013-14)
+#'input <- format_data(
+#'  rate      = 0.10924,
+#'  lower_age = 0,
+#'  upper_age = 365.25*5,
+#'  type      = "qx",
+#'  sex       = "total")
 
 
 format_data <- function(lower_age, upper_age, rate, type, sex, fit, weight){
@@ -93,31 +101,33 @@ format_data <- function(lower_age, upper_age, rate, type, sex, fit, weight){
   if(missing(type))              stop('"type"      is missing.')
   if(missing(sex))               stop('"sex"       is missing.')
 
+
   if(length(unique(c(length(lower_age),
                      length(upper_age),
                      length(rate),
                      length(type),
                      length(sex)))) !=  1)      stop('Variables must have the same length.')
-
   if(missing(fit) == F){
     if(length(lower_age) != length(fit))        stop('Variables must have the same length.')
   }
-
   if(missing(weight) == F){
     if(length(lower_age) != length(weight))     stop('Variables must have the same length.')
   }
+
 
   if(!is.numeric(lower_age))    stop('"lower_age" must be numeric.')
   if(!is.numeric(upper_age))    stop('"upper_age" must be numeric.')
   if(!is.numeric(rate))         stop('"rates" must be numeric.')
   if(!is.character(type))       stop('"type" must be a character string.')
   if(!is.character(sex))        stop('"sex" must be a character string.')
-
-  if(length(unique(sex)) != 1)  stop('"sex" must be identical for all inputs.')
-
   if(missing(fit) == F){
     if(!is.character(fit))      stop('"fit" must be a character string.')
   }
+  if(missing(weight) == F){
+    if(!is.numeric(weight))     stop('"weight" must be numeric.')
+  }
+
+
 
   if((F %in% (lower_age  %in%       c(0.0000,    7.0000,    14.0000,   21.0000,   28.0000,
                                       60.8750,   91.3125,   121.7500,  152.1875,  182.6250,
@@ -131,19 +141,14 @@ format_data <- function(lower_age, upper_age, rate, type, sex, fit, weight){
                                       1095.7500, 1461.0000, 1826.2500))))                   stop('Wrong value for "upper_age".')
   if(F %in% (lower_age < upper_age))                                                        stop('"lower_age"   >  "upper_age".')
   if(T %in% (rate <= 0))                                                                    stop('"rates" must be > 0.')
-
   if(F %in% (sex    %in%   c("female",  "male", "total")))                                  stop('Wrong value for "sex".')
-
+  if(length(unique(sex)) != 1)   stop('"sex" must be identical for all inputs.')
   if(F %in% (type   %in%   c("qx",  "mx", "zx")))                                           stop('Wrong value for "type".')
-
   if(T %in% (type   %in%   c("zx"))){
-
     p <- which(type == "zx")
     if(length(p) > 1)                                                                 stop('Only one z(x) can be matched.')
-
     if(length(type) < 2)                                                              stop('z(x) can be matched only with another input (either mx or qx).')
     if(length(type) > 2)                                                              stop('z(x) can be matched only with one single other input.')
-
     if(F %in% (lower_age[1] == 0))                                                    stop('"lower_age" must be equal to 0 for both inputs when matching z(x)')
     if(F %in% (lower_age[2] == 0))                                                    stop('"lower_age" must be equal to 0 for both inputs when matching z(x)')
     if(F %in% (upper_age[p] == 28 | upper_age[p] == 91.3125))                         stop('"upper_age" must be equal to 28 or 91.3125 for z(x)')
@@ -158,10 +163,12 @@ format_data <- function(lower_age, upper_age, rate, type, sex, fit, weight){
     }else{
       fit <- "match"
     }
-
     if(missing(weight) == F)                           warning('"weight" not used with matching.')
-
   }
+
+
+
+
 
   df <-data.frame(
     "lower_age" = lower_age,
@@ -171,10 +178,10 @@ format_data <- function(lower_age, upper_age, rate, type, sex, fit, weight){
     "sex"       = sex,
     "fit"       = fit)
 
+
+
+
   if(length(lower_age) > 2){
-
-
-
 
     if(missing(fit))                                            stop('"fit" is missing.')
 
@@ -184,13 +191,12 @@ format_data <- function(lower_age, upper_age, rate, type, sex, fit, weight){
     if(F %in% ("min"   %in% df$fit))                            stop('"min" is missing in "fit".')
 
 
-
     if(missing(weight) == F){
       df$weight <- weight
       if(is.character(df$weight[df$fit == "min"]))              stop('"weight" must be numeric.')
       if(!is.na(df$weight[df$fit == "match"]))                  warning('Weight for matched input not used. NA used instead')
       df$weight[df$fit == "match"] <- NA
-      if(sum(df$weight[df$fit == "min"], na.rm = T) != 1)       stop('Sum of weights different from 1.')
+      if(sum(df$weight[df$fit == "min"], na.rm = T) != 1)       warning('Sum of weights different from 1.')
     }else{weight <- rep(1/length(lower_age),length(lower_age))}
 
   }
