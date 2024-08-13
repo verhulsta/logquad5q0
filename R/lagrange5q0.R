@@ -154,7 +154,7 @@ lagrange5q0 <- function(data,k, model, region){
     data(coef_B)
     pred <- subset(coef, sex == unique(data$sex))
   }else{
-  data(coef)
+  data(coef_A)
     pred <- subset(coef, sex == unique(data$sex))
   }
 
