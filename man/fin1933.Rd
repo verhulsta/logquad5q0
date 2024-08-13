@@ -17,6 +17,6 @@ fin1933
 Input data for Finland 1933
 }
 \references{
-\url{https://repository.upenn.edu/psc_publications/54/}.
+\url{https://doi.org/10.1215/00703370-9709538}
 }
 \keyword{datasets}
