@@ -19,7 +19,7 @@ format_data(lower_age, upper_age, rate, type, sex, fit, weight)
 
 \item{fit}{Character: 'match' or 'min'. Needed only when there are more than 2 inputs. Select the input to be matched using 'match'. Use 'min' for all the other inputs.}
 
-\item{weigth}{Optional when there are more than 2 inputs: weight for inputs whose root mean square error is minimized. Use 0 or NA for the matched input. The sum of weights must be equal to 1.}
+\item{weigth}{Recommended when there are more than 2 inputs: weight for inputs whose root mean square error is minimized. Use 0 or NA for the matched input. The sum of weights must be equal to 1.}
 }
 \value{
 \code{format_data} returns a data frame with the formated mortality inputs ready for the implementation of \code{lagrange5q0}.
@@ -90,4 +90,12 @@ input <- format_data(
  sex       = fin1933$sex,
  fit       = fin1933$fit,
  weight    = fin1933$weight)
+
+#One input (Model B & regional k) : q(5y) (DHS DR Congo 2013-14)
+input <- format_data(
+ rate      = 0.10924,
+ lower_age = 0,
+ upper_age = 365.25*5,
+ type      = "qx",
+ sex       = "total")
 }

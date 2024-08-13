@@ -20,8 +20,12 @@ knitr::opts_chunk$set(
 
 
 
-**Paper**: [Guillot M., J. Romero Prieto, A. Verhulst, P. Gerland. *Modeling Age Patterns of Under-5 Mortality: Results From a Log-Quadratic Model Applied to High-Quality Vital Registration Data*](https://read.dukeupress.edu/demography/article/59/1/321/293847/Modeling-Age-Patterns-of-Under-5-Mortality-Results).
+**Papers**: 
 
+[Guillot M., J. Romero Prieto, A. Verhulst, P. Gerland. Modeling Age Patterns of Under-5 Mortality: Results From a Log-Quadratic Model Applied to High-Quality Vital Registration Data. *Demography*](https://doi.org/10.1215/00703370-9709538).
+
+
+[J. Romero Prieto J. , A. Verhulst, and M. Guillot. Estimating 1a0 and 4a1 in a Life Table: A Model Approach Based on Newly Collected Data. *Demography*](https://doi.org/10.1215/00703370-11330227).
 
 ## Overview
 
@@ -34,8 +38,10 @@ Based on these outputs, the package also computes the average number of years li
 Data and R code needed to replicate the coefficients of the log-quadratic model are available on the website of the Under-5 Mortality Database (U5MD): https://web.sas.upenn.edu/global-age-patterns-under-five-mortality/
 
 
-{\color{red}
-BETA VERSION: The package includes new coefficients derived from Demographic and Health Surveys (DHS) collected between 1985 and 2022 in sub-Saharan Africa and south Asia. These coefficients will updated with the most recent DHS available before publication.} 
+<span style="color:red">
+BETA VERSION: The package includes new coefficients derived from Demographic and Health Surveys (DHS) collected between 1985 and 2022 in sub-Saharan Africa and south Asia. These coefficients will be updated with the most recent DHS available before publication of the paper.
+</span>
+
 
 
 To report issues or suggest improvements, please contact andrea.verhulst@ined.fr
@@ -82,7 +88,7 @@ This function allows four types of mortality inputs:
 
 4.	More than two mortality inputs (either nqx or nMx) for any age interval. One of them must be selected for matching. The selected input will be matched exactly, the root mean square error will be minimized over the remaining mortality inputs, and the value of k will be estimated.
 
-The computation of the root mean square error (RMSE) can be weighted. When minimizing a series of q(x), i.e. cumulative probabilities starting at age 0, we recommend using weights proportional to the length of the last age interval (see fifth example below). This approach was used to produce the results of the paper.
+The computation of the root mean square error (RMSE) can be weighted. When minimizing a series of q(x), i.e. cumulative probabilities starting at age 0, we recommend using weights proportional to the length of the last age interval (see example 5 below). This approach was used to produce the results of the paper.
 
 \_
 
@@ -140,6 +146,18 @@ Two types of 95% confidence intervals (CIs) are automatically provided when:
 #### Caveat
 
 The log-quadratic model is based on a set of vital records from Western countries. Predictions based on values of q(5y) above 0.150 and on values of k below -1.1 or above +1.5 are extrapolations. A warning message will be produced when such cases occur. Beyond these limits, it also might be impossible to converge to a solution. An error message will be produced in such case.
+
+
+<span style="color:red">
+
+#### BETA VERSION
+
+To use the new coefficients for sub-Saharan Africa and south Asia, specify the 'B' model in the function **lagrange5q0** (see example 6 below).
+
+In the case scenario of having a single mortality input and no information on the value of k, the user can specify a region ('Eastern Africa', 'Middle Africa', 'Western Africa', or 'South Asia') in order to benefit from a regional prior of k instead of assuming k = 0 (see example 6 below).
+
+
+</span>
 
 
 

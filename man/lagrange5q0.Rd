@@ -4,12 +4,16 @@
 \alias{lagrange5q0}
 \title{lagrange5q0}
 \usage{
-lagrange5q0(data, k)
+lagrange5q0(data, k, model, region)
 }
 \arguments{
 \item{data}{mortality inputs formated with \code{format_data}.}
 
 \item{k}{constrained value of k (only when using a single mortality input).}
+
+\item{model}{Character: 'A' (default) or 'B'.}
+
+\item{region}{Character: 'Eastern Africa', 'Middle Africa', 'Western Africa', or 'South Asia' (only for Model B).}
 }
 \value{
 \code{lagrange5q0} returns a list including six elements: the predicted values of q(5y) and k, a data frame with predicted values of q(x) and nMx, and the predicted value of 1a0, 4a1, and 5a0.
@@ -32,9 +36,11 @@ Two types of 95\% confidence intervals (CIs) are automatically estimated: (1)	CI
 \item More than two mortality inputs (either nqx or nMx) for any age interval. One of them must be selected for matching. The selected input will be matched exactly, the root mean square error will be minimized over the remaining mortality inputs, and the value of k will be estimated.
 }
 
-The computation of the root mean square error (RMSE) can be weighted. When minimizing a series of q(x), i.e. cumulative probabilities of dying starting at age 0, we recommend using weights proportional to the length of the last age interval (see fourth example below).
+The computation of the root mean square error (RMSE) can be weighted. When minimizing a series of q(x), i.e. cumulative probabilities of dying starting at age 0, we recommend using weights proportional to the length of the last age interval (see example 5 below).
 
 Use \code{format_data} to prepare and verify the mortality inputs.
+
+BETA VERSION: To use coefficients for sub-Saharan Africa and south Asia, specify 'B' for the parameter 'model'. In the case scenario of having a single mortality input and no information on the value of k, the user can specify the parameter 'region' ('Eastern Africa', 'Middle Africa', 'Western Africa', or 'South Asia') in order to benefit from a regional prior of k instead of assuming k = 0 (see example 6 below)
 }
 \examples{
 #1. One input (k = 0): q(28d,5y) (Jordan 2015)
@@ -91,10 +97,20 @@ input <- format_data(
  weight    = fin1933$weight)
 
 lagrange5q0(data = input)
+
+#6. One input (Model B & regional k) : q(5y) (DHS DR Congo 2013-14)
+input <- format_data(
+ rate      = 0.10924,
+ lower_age = 0,
+ upper_age = 365.25*5,
+ type      = "qx",
+ sex       = "total")
+
+lagrange5q0(data = input, model = 'B', region = "Middle Africa")
 }
 \references{
-\code{lagrange5q0} uses the  method of Langrage in order to solve the log-quadratic model presented in \url{https://repository.upenn.edu/psc_publications/54/}.
+\code{lagrange5q0} uses the  method of Langrage in order to solve the log-quadratic model presented in \url{https://doi.org/10.1215/00703370-9709538}.
 }
 \author{
-Andrea Verhulst, \email{verhulst@sas.upenn.edu}, Julio Romero \email{Julio.Romero-Prieto@lshtm.ac.uk}
+Andrea Verhulst, \email{andrea.verhulst@ined.fr}, Julio Romero \email{Julio.Romero-Prieto@lshtm.ac.uk}
 }

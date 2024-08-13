@@ -6,16 +6,16 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-**Papers**: 
+**Papers**:
 
-[Guillot M., J. Romero Prieto, A. Verhulst, and P. Gerland.
-*Modeling Age Patterns of Under-5 Mortality: Results From a
-Log-Quadratic Model Applied to High-Quality Vital Registration Data*](https://read.dukeupress.edu/demography/article/59/1/321/293847/Modeling-Age-Patterns-of-Under-5-Mortality-Results).
+[Guillot M., J. Romero Prieto, A. Verhulst, P. Gerland. Modeling Age
+Patterns of Under-5 Mortality: Results From a Log-Quadratic Model
+Applied to High-Quality Vital Registration Data.
+*Demography*](https://doi.org/10.1215/00703370-9709538).
 
-
-
-[J. Romero Prieto J. , A. Verhulst, and M. Guillot.
-*Estimating 1a0 and 4a1 in a Life Table: A Model Approach Based on Newly Collected Data*](https://doi.org/10.1215/00703370-11330227).
+[J. Romero Prieto J. , A. Verhulst, and M. Guillot. Estimating 1a0 and
+4a1 in a Life Table: A Model Approach Based on Newly Collected Data.
+*Demography*](https://doi.org/10.1215/00703370-11330227).
 
 ## Overview
 
@@ -26,17 +26,25 @@ The package uses the method of Lagrange to implement a log-quadratic
 model able to estimate the age pattern of under-5 mortality by detailed
 age. A variety of mortality inputs between 0 and 5 years can be used in
 order to predict a series of 22 cumulative probabilities of dying (q(x))
-and mortality rates (nMx) for the first 5 years of life. 
+and mortality rates (nMx) for the first 5 years of life.
 
-Based on these outputs, the package also computes the average number of years lived by those dying in the age intervals 0-1, 1-4 and 0-5 (i.e., 1a0, 4a1, and 5a0).
+Based on these outputs, the package also computes the average number of
+years lived in the age intervals 0-1, 1-4 and 0-5 (i.e., 1a0, 4a1, and
+5a0).
 
 Data and R code needed to replicate the coefficients of the
 log-quadratic model are available on the website of the Under-5
 Mortality Database (U5MD):
 <https://web.sas.upenn.edu/global-age-patterns-under-five-mortality/>
 
+<span style="color:red"> BETA VERSION: The package includes new
+coefficients derived from Demographic and Health Surveys (DHS) collected
+between 1985 and 2022 in sub-Saharan Africa and south Asia. These
+coefficients will be updated with the most recent DHS available before
+publication of the paper. </span>
+
 To report issues or suggest improvements, please contact
-<andrea.verhulst@ined.fr>.
+<andrea.verhulst@ined.fr>
 
 #### Authors of the package
 
@@ -93,7 +101,7 @@ This function allows four types of mortality inputs:
 The computation of the root mean square error (RMSE) can be weighted.
 When minimizing a series of q(x), i.e. cumulative probabilities starting
 at age 0, we recommend using weights proportional to the length of the
-last age interval (see fourth example below). This approach was used to
+last age interval (see example 5 below). This approach was used to
 produce the results of the paper.
 
 \_
@@ -161,11 +169,27 @@ message will be produced when such cases occur. Beyond these limits, it
 also might be impossible to converge to a solution. An error message
 will be produced in such case.
 
+<span style="color:red">
+
+#### BETA VERSION
+
+To use the new coefficients for sub-Saharan Africa and south Asia,
+specify the ‘B’ model in the function **lagrange5q0** (see example 6
+below).
+
+In the case scenario of having a single mortality input and no
+information on the value of k, the user can specify a region (‘Eastern
+Africa’, ‘Middle Africa’, ‘Western Africa’, or ‘South Asia’) in order to
+benefit from a regional prior of k instead of assuming k = 0 (see
+example 6 below).
+
+</span>
+
 ## Examples
 
 ``` r
 
-#1. One input (k = 0): q(28d,5y) (Jordan 2015)
+#1. One input (k = 0): q(28d,5y) (VR Jordan 2015)
 input <- format_data(
    rate      = 0.00804138,
    lower_age = 28,
@@ -176,7 +200,7 @@ input <- format_data(
 lagrange5q0(data = input)
 
 
-#2. One input and k = 0.5: q(28d,5y) (Jordan 2015)
+#2. One input and k = 0.5: q(28d,5y) (VR Jordan 2015)
 input <- format_data(
    rate      = 0.00804138,
    lower_age = 28,
@@ -187,7 +211,7 @@ input <- format_data(
 lagrange5q0(data = input, k = 0.5)
 
 
-#3. Two inputs: q(0,1y) and q(1y,4y) (Belgium 1984)
+#3. Two inputs: q(0,1y) and q(1y,4y) (VR Belgium 1984)
 input <- format_data(
   lower_age = c(0,365.25),
   upper_age = c(365.25,365.25*5),
@@ -198,7 +222,7 @@ input <- format_data(
 lagrange5q0(data = input)
 
 
-#4. Two inputs: M(0,1y) and z(28d) (Australia 1935)
+#4. Two inputs: M(0,1y) and z(28d) (VR Australia 1935)
 input <-  format_data(
   lower_age = c(0,0),
   upper_age = c(365.25, 28),
@@ -209,7 +233,7 @@ input <-  format_data(
 lagrange5q0(data = input)
 
 
-#5. 22 inputs + 1 match: q(x) (Finland 1933)
+#5. 22 inputs + 1 match: q(x) (VR Finland 1933)
 data(fin1933)
 fin1933$weight <- c(fin1933$n[1:22]/(365.25*5), NA) 
 input <- format_data(
@@ -222,4 +246,15 @@ input <- format_data(
   weight    = fin1933$weight)
 
 lagrange5q0(data = input)
+
+
+#6. One input (Model B & regional k) : q(5y) (DHS DR Congo 2013-14)
+input <- format_data(
+   rate      = 0.10924,
+   lower_age = 0,
+   upper_age = 365.25*5,
+   type      = "qx",
+   sex       = "total")
+
+lagrange5q0(data = input, model = 'B', region = "Middle Africa")
 ```
