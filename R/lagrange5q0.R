@@ -245,10 +245,12 @@ lagrange5q0 <- function(data,k, model, region){
 
     if(is.unsorted(pred$lower_p_qx) |
        is.unsorted(pred$upper_p_qx))                       warning('Model cannot converge to a solution for confidence interval.')
+
     if(model == 'A'){
     if(is.unsorted(rev(pred$lower_p_mx)) |
        is.unsorted(rev(pred$upper_p_mx)))                  warning('Increase with age in the force of mortality (nMx) in confidence interval. Values extrapolated.')
     }
+
     if(is.unsorted(pred$lower_p_qx) |
        is.unsorted(pred$upper_p_qx)){
       pred <- pred[,c("lower_age", "lower_age_m", "upper_age", "p_qx", "p_mx")]
@@ -280,16 +282,18 @@ lagrange5q0 <- function(data,k, model, region){
       pred$lower_p_mx  <- qx_to_mx(pred$lower_p_qx)
       pred$upper_p_mx  <- qx_to_mx(pred$upper_p_qx)
 
-      if(is.unsorted(pred$p.qx_lowerCI) |
-         is.unsorted(pred$p.qx_upperCI))                   warning('Model cannot converge to a solution for confidence interval.')
+      if(is.unsorted(pred$lower_p_qx) |
+         is.unsorted(pred$upper_p_qx))                         warning('Model cannot converge to a solution for confidence interval.')
+
       if(model == 'A'){
-      if(is.unsorted(rev(pred$p.mx_lowerCI)) |
-         is.unsorted(rev(pred$p.mx_upperCI)))              warning('Increase with age in the force of mortality (nMx) in confidence interval. Values extrapolated.')
+        if(is.unsorted(rev(pred$lower_p_mx)) |
+           is.unsorted(rev(pred$upper_p_mx)))                  warning('Increase with age in the force of mortality (nMx) in confidence interval. Values extrapolated.')
       }
-      if(is.unsorted(pred$p.qx_lowerCI) |
-         is.unsorted(pred$p.qx_upperCI)){
+
+      if(is.unsorted(pred$lower_p_qx) |
+         is.unsorted(pred$upper_p_qx)){
         pred <- pred[,c("lower_age", "lower_age_m", "upper_age", "p_qx", "p_mx")]
-        names(pred)[1] <- "low_age_q"
+        names(pred)[1] <- "lower_age_q"
       }else{
         pred <- pred[,c("lower_age", "lower_age_m", "upper_age",
                         "p_qx", "lower_p_qx", "upper_p_qx",
