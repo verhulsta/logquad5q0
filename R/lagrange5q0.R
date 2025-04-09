@@ -327,11 +327,23 @@ lagrange5q0 <- function(data,k, model, region){
 
   rownames(pred) <- 1:nrow(pred)
 
-  return(list( "q(5y)"       = exp(par$h),
-               "k"           = par$k,
-               "predictions" = pred,
-               "1a0"         = a0_1,
-               "4a1"         = a1_4,
-               "5a0"         = a0_5))
+
+
+  if(model %in%   c("A")){
+    return(list( "q(5y)"       = exp(par$h),
+                 "k"           = par$k,
+                 "predictions" = pred,
+                 "1a0"         = a0_1,
+                 "4a1"         = a1_4,
+                 "5a0"         = a0_5))
+  }else{
+    return(list( "q(5y)"       = exp(par$h),
+                 "k"           = par$k,
+                 "predictions" = pred))
+  }
+
+
+
+
 
 }
