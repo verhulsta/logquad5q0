@@ -289,7 +289,7 @@ format_pred  <- function(data, pred){
   if(sum(tmp$type == "mx")>0){
 
     tmp2           <- pred[,c("lower_age_m", "upper_age", "p.qx", "p.mx")]
-    names(pre)[1] <- "lower_age"
+    names(pred)[1] <- "lower_age"
     data_pred     <- merge(tmp,tmp2, c("lower_age", "upper_age"), all.x = T)
     data_pred     <- data_pred[order(data_pred$upper_age),]
 
