@@ -7,7 +7,7 @@
 #' @param data    mortality inputs formated with \code{format_data}.
 #' @param k       constrained value of k (only when using a single mortality input).
 #' @param model   Character: 'A' (default) or 'B'.
-#' @param region  Character: 'Eastern Africa', 'Middle Africa', 'Western Africa', or 'South Asia' (only for Model B).
+#' @param region  Character: 'Sub-Saharan Africa', 'Eastern Africa', 'Middle Africa', 'Western Africa', or 'South Asia' (only for Model B).
 #' @return \code{lagrange5q0} returns a list including six elements: the predicted values of q(5y) and k, a data frame with predicted values of q(x) and nMx, and the predicted value of 1a0, 4a1, and 5a0.
 #'
 #' The boundaries of the age intervals are given in days (1 year = 365.25 days, 1 month = 30.4375 days).
@@ -32,7 +32,7 @@
 #'Use \code{format_data} to prepare and verify the mortality inputs.
 #'
 #'
-#' BETA VERSION: To use coefficients for sub-Saharan Africa and south Asia, specify 'B' for the parameter 'model'. In the case scenario of having a single mortality input and no information on the value of k, the user can specify the parameter 'region' ('Eastern Africa', 'Middle Africa', 'Western Africa', or 'South Asia') in order to benefit from a regional prior of k instead of assuming k = 0 (see example 6 below)
+#' BETA VERSION: To use coefficients for sub-Saharan Africa and south Asia, specify 'B' for the parameter 'model'. In the case scenario of having a single mortality input and no information on the value of k, the user can specify the parameter 'region' ('Sub-Saharan Africa', 'Eastern Africa', 'Middle Africa', 'Western Africa', or 'South Asia') in order to benefit from a regional prior of k instead of assuming k = 0 (see example 6 below)
 #'
 #'
 #' @export
@@ -191,10 +191,11 @@ lagrange5q0 <- function(data,k, model, region){
 
     }else{
       if(model == 'B' & missing(region) == F){
-        if(F %in% (region   %in%   c("Eastern Africa",
+        if(F %in% (region   %in%   c("Sub-Saharan Africa",
+                                     "Eastern Africa",
                                      "Middle Africa",
                                      "Western Africa",
-                                     "South Asia")))       stop('Wrong value for "region". Choose "Eastern Africa", "Middle Africa",  "Western Africa", or "South Asia".')
+                                     "South Asia")))       stop('Wrong value for "region". Choose "Sub-Saharan Africa", "Eastern Africa", "Middle Africa", "Western Africa", or "South Asia".')
       }
 
       if(model == 'B' & missing(region) == T){

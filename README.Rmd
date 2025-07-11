@@ -22,24 +22,27 @@ knitr::opts_chunk$set(
 
 **Papers**: 
 
-[Guillot M., J. Romero Prieto, A. Verhulst, P. Gerland. Modeling Age Patterns of Under-5 Mortality: Results From a Log-Quadratic Model Applied to High-Quality Vital Registration Data. *Demography*](https://doi.org/10.1215/00703370-9709538).
+[Guillot M., J. Romero Prieto, A. Verhulst, P. Gerland. 2022. Modeling Age Patterns of Under-5 Mortality: Results From a Log-Quadratic Model Applied to High-Quality Vital Registration Data. *Demography*](https://doi.org/10.1215/00703370-9709538).
 
 
-[J. Romero Prieto J. , A. Verhulst, and M. Guillot. Estimating 1a0 and 4a1 in a Life Table: A Model Approach Based on Newly Collected Data. *Demography*](https://doi.org/10.1215/00703370-11330227).
+[J. Romero-Prieto J. , A. Verhulst, and M. Guillot. 2024. Estimating 1a0 and 4a1 in a Life Table: A Model Approach Based on Newly Collected Data. *Demography*](https://doi.org/10.1215/00703370-11330227).
 
 ## Overview
 
-This repository contains the R package **logquad5q0** associated with the above-mentioned article published in the journal *Demography*. 
+This repository contains the R package **logquad5q0** associated with the above-mentioned articles published. 
 
-The package uses the method of Lagrange to implement a log-quadratic model able to estimate the age pattern of under-5 mortality by detailed age. A variety of mortality inputs between 0 and 5 years can be used in order to predict a series of 22 cumulative probabilities of dying (q(x)) and mortality rates (nMx) for the first 5 years of life. 
+The package uses the method of Lagrange to implement a log-quadratic model able to estimate the age pattern of under-5 mortality by detailed age. A variety of mortality inputs between 0 and 5 years can be used to predict a series of 22 cumulative probabilities of dying (q(x)) and mortality rates (nMx) for the first 5 years of life. 
 
-Based on these outputs, the package also computes the average number of years lived in the age intervals 0-1, 1-4 and 0-5 (i.e., 1a0, 4a1, and 5a0).
+Model A published by Guillot et al. in 2022 is based on historical data from high-income countries compiled in the *Under-5 Mortality Database* (U5MD). R code to replicate the coefficients of model A are available on the website of the U5MD: https://web.sas.upenn.edu/global-age-patterns-under-five-mortality/.
 
-Data and R code needed to replicate the coefficients of the log-quadratic model are available on the website of the Under-5 Mortality Database (U5MD): https://web.sas.upenn.edu/global-age-patterns-under-five-mortality/
+For model A, the package also computes the average number of years lived in the age intervals 0-1, 1-4 and 0-5 (i.e., 1a0, 4a1, and 5a0) based on the result of Romero-Prieto et al. (2024).
+
+Model B presented in the paper of Verhulst et al. (2025) includes new coefficients derived from *Demographic and Health Surveys* (DHS) collected between 1985 and 2024 in sub-Saharan Africa and south Asia. R code to replicate the coefficients of model B are available here: https://github.com/Romero-Prieto/Model_B
+
+
 
 
 <span style="color:red">
-BETA VERSION: The package includes new coefficients derived from Demographic and Health Surveys (DHS) collected between 1985 and 2022 in sub-Saharan Africa and south Asia. These coefficients will be updated with the most recent DHS available before publication of the paper.
 </span>
 
 
@@ -90,6 +93,14 @@ This function allows four types of mortality inputs:
 
 The computation of the root mean square error (RMSE) can be weighted. When minimizing a series of q(x), i.e. cumulative probabilities starting at age 0, we recommend using weights proportional to the length of the last age interval (see example 5 below). This approach was used to produce the results of the paper.
 
+
+To use the coefficients for sub-Saharan Africa and south Asia, specify the 'B' model in the function **lagrange5q0** (see example 6 below).
+
+In the case scenario of having a single mortality input and no information on the value of k, the user can specify a region ('Sub-Saharan Africa', 'Eastern Africa', 'Middle Africa', 'Western Africa', or 'South Asia') in order to benefit from a regional prior of k instead of assuming k = 0 (see example 6 below). Note that 'Sub-Saharan Africa' only covers the three African regions of the model B (i.e., eastern, middle, and western Africa).
+
+
+
+
 \_
 
 Use the function **format_data** to prepare and verify the mortality inputs.
@@ -131,7 +142,7 @@ The function lagrange5q0 returns a list including:
 * The  predicted value of q(5y).
 * The  predicted value of k.
 * A data frame with predicted values of q(x) and nMx.
-* The predicted value of 1a0, 4a1, and 5a0.
+* The predicted value of 1a0, 4a1, and 5a0 with model A.
 
 Different age intervals are provived for the values of q(x), i.e. the cumulative probabilities of dying between 0 and age x, and for the values nMx,  i.e. the central death rates between x and x+n.
 
@@ -145,16 +156,12 @@ Two types of 95% confidence intervals (CIs) are automatically provided when:
 
 #### Caveat
 
-The log-quadratic model is based on a set of vital records from Western countries. Predictions based on values of q(5y) above 0.150 and on values of k below -1.1 or above +1.5 are extrapolations. A warning message will be produced when such cases occur. Beyond these limits, it also might be impossible to converge to a solution. An error message will be produced in such case.
+Model A is based on a set of vital records from high-income countries. Predictions based on values of q(5y) above 0.150 and on values of k below -1.1 or above +1.5 are extrapolations. In Model B based on DHS data from sub-Saharan Africa and south Asia, the corresponding value are 0. 330 for q(5y) and -1.8 and +1.2 for k.
+A warning message will be displayed if these limits are exceeded. Beyond these limits, it also might be impossible to converge to a solution. An error message will be generated in such case.
+
 
 
 <span style="color:red">
-
-#### BETA VERSION
-
-To use the new coefficients for sub-Saharan Africa and south Asia, specify the 'B' model in the function **lagrange5q0** (see example 6 below).
-
-In the case scenario of having a single mortality input and no information on the value of k, the user can specify a region ('Eastern Africa', 'Middle Africa', 'Western Africa', or 'South Asia') in order to benefit from a regional prior of k instead of assuming k = 0 (see example 6 below).
 
 
 </span>
