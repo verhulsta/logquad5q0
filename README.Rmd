@@ -29,13 +29,13 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-This repository contains the R package **logquad5q0** associated with the above-mentioned articles published. 
+This repository contains the R package **logquad5q0** associated with the above-mentioned articles. 
 
 The package uses the method of Lagrange to implement a log-quadratic model able to estimate the age pattern of under-5 mortality by detailed age. A variety of mortality inputs between 0 and 5 years can be used to predict a series of 22 cumulative probabilities of dying (q(x)) and mortality rates (nMx) for the first 5 years of life. 
 
 Model A published by Guillot et al. in 2022 is based on historical data from high-income countries compiled in the *Under-5 Mortality Database* (U5MD). R code to replicate the coefficients of model A are available on the website of the U5MD: https://web.sas.upenn.edu/global-age-patterns-under-five-mortality/.
 
-For model A, the package also computes the average number of years lived in the age intervals 0-1, 1-4 and 0-5 (i.e., 1a0, 4a1, and 5a0) based on the result of Romero-Prieto et al. (2024).
+For model A, the package also computes the average number of years lived in the age intervals 0-1, 1-4 and 0-5 (i.e., 1a0, 4a1, and 5a0) based on the results of Romero-Prieto et al. (2024).
 
 Model B presented in the paper of Verhulst et al. (2025) includes new coefficients derived from *Demographic and Health Surveys* (DHS) collected between 1985 and 2024 in sub-Saharan Africa and south Asia. R code to replicate the coefficients of model B are available here: https://github.com/Romero-Prieto/Model_B
 
@@ -156,7 +156,7 @@ Two types of 95% confidence intervals (CIs) are automatically provided when:
 
 #### Caveat
 
-Model A is based on a set of vital records from high-income countries. Predictions based on values of q(5y) above 0.150 and on values of k below -1.1 or above +1.5 are extrapolations. In Model B based on DHS data from sub-Saharan Africa and south Asia, the corresponding value are 0. 330 for q(5y) and -1.8 and +1.2 for k.
+Model A is based on a set of vital records from high-income countries. Predictions based on values of q(5y) above 0.150 and on values of k below -1.1 or above +1.5 are extrapolations. In Model B based on DHS data from sub-Saharan Africa and south Asia, the corresponding values are 0. 330 for q(5y) and -1.8 and +1.2 for k.
 A warning message will be displayed if these limits are exceeded. Beyond these limits, it also might be impossible to converge to a solution. An error message will be generated in such case.
 
 
