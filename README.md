@@ -41,9 +41,9 @@ the results of Romero-Prieto et al. (2024).
 
 Model B presented in the paper of Verhulst et al. (2025) includes new
 coefficients derived from *Demographic and Health Surveys* (DHS)
-collected between 1985 and 2024 in sub-Saharan Africa and south Asia. R
-code to replicate the coefficients of model B are available here:
-<https://github.com/Romero-Prieto/Model_B>
+collected between 1985 and 2024 in selected countries from sub-Saharan
+Africa and south Asia. R code to replicate the coefficients of model B
+are available here: <https://github.com/Romero-Prieto/Model_B>
 
 <span style="color:red"> </span>
 
@@ -113,10 +113,10 @@ the ‘B’ model in the function **lagrange5q0** (see example 6 below).
 
 In the case scenario of having a single mortality input and no
 information on the value of k, the user can specify a region
-(‘Sub-Saharan Africa’, ‘Eastern Africa’, ‘Middle Africa’, ‘Western
+(‘Sub-Saharan regions’, ‘Eastern Africa’, ‘Middle Africa’, ‘Western
 Africa’, or ‘South Asia’) in order to benefit from a regional prior of k
 instead of assuming k = 0 (see example 6 below). Note that ‘Sub-Saharan
-Africa’ only covers the three African regions of the model B (i.e.,
+regions’ only covers the three African regions of the model B (i.e.,
 eastern, middle, and western Africa).
 
 \_

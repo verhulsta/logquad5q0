@@ -13,7 +13,7 @@ lagrange5q0(data, k, model, region)
 
 \item{model}{Character: 'A' (default) or 'B'.}
 
-\item{region}{Character: 'Sub-Saharan Africa', 'Eastern Africa', 'Middle Africa', 'Western Africa', or 'South Asia' (only for Model B).}
+\item{region}{Character: 'Sub-Saharan regions', 'Eastern Africa', 'Middle Africa', 'Western Africa', or 'South Asia' (only for Model B).}
 }
 \value{
 \code{lagrange5q0} returns a list including six elements: the predicted values of q(5y) and k, a data frame with predicted values of q(x) and nMx, and the predicted value of 1a0, 4a1, and 5a0.
@@ -40,7 +40,7 @@ The computation of the root mean square error (RMSE) can be weighted. When minim
 
 Use \code{format_data} to prepare and verify the mortality inputs.
 
-BETA VERSION: To use coefficients for sub-Saharan Africa and south Asia, specify 'B' for the parameter 'model'. In the case scenario of having a single mortality input and no information on the value of k, the user can specify the parameter 'region' ('Sub-Saharan Africa', 'Eastern Africa', 'Middle Africa', 'Western Africa', or 'South Asia') in order to benefit from a regional prior of k instead of assuming k = 0 (see example 6 below)
+To use coefficients for sub-Saharan Africa and south Asia, specify 'B' for the parameter 'model'. In the case scenario of having a single mortality input and no information on the value of k, the user can specify the parameter 'region' ('Sub-Saharan regions', 'Eastern Africa', 'Middle Africa', 'Western Africa', or 'South Asia') in order to benefit from a regional prior of k instead of assuming k = 0 (see example 6 below)
 }
 \examples{
 #1. One input (k = 0): q(28d,5y) (Jordan 2015)

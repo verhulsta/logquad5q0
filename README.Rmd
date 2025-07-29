@@ -37,7 +37,7 @@ Model A published by Guillot et al. in 2022 is based on historical data from hig
 
 For model A, the package also computes the average number of years lived in the age intervals 0-1, 1-4 and 0-5 (i.e., 1a0, 4a1, and 5a0) based on the results of Romero-Prieto et al. (2024).
 
-Model B presented in the paper of Verhulst et al. (2025) includes new coefficients derived from *Demographic and Health Surveys* (DHS) collected between 1985 and 2024 in sub-Saharan Africa and south Asia. R code to replicate the coefficients of model B are available here: https://github.com/Romero-Prieto/Model_B
+Model B presented in the paper of Verhulst et al. (2025) includes new coefficients derived from *Demographic and Health Surveys* (DHS) collected between 1985 and 2024 in selected countries from sub-Saharan Africa and south Asia. R code to replicate the coefficients of model B are available here: https://github.com/Romero-Prieto/Model_B
 
 
 
@@ -96,7 +96,7 @@ The computation of the root mean square error (RMSE) can be weighted. When minim
 
 To use the coefficients for sub-Saharan Africa and south Asia, specify the 'B' model in the function **lagrange5q0** (see example 6 below).
 
-In the case scenario of having a single mortality input and no information on the value of k, the user can specify a region ('Sub-Saharan Africa', 'Eastern Africa', 'Middle Africa', 'Western Africa', or 'South Asia') in order to benefit from a regional prior of k instead of assuming k = 0 (see example 6 below). Note that 'Sub-Saharan Africa' only covers the three African regions of the model B (i.e., eastern, middle, and western Africa).
+In the case scenario of having a single mortality input and no information on the value of k, the user can specify a region ('Sub-Saharan regions', 'Eastern Africa', 'Middle Africa', 'Western Africa', or 'South Asia') in order to benefit from a regional prior of k instead of assuming k = 0 (see example 6 below). Note that 'Sub-Saharan regions' only covers the three African regions of the model B (i.e., eastern, middle, and western Africa).
 
 
 
