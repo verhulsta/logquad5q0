@@ -69,6 +69,8 @@ You can install the released version of logquad5q0 with:
 install.packages("remotes")
 
 remotes::install_github("verhulsta/logquad5q0")
+
+library(logquad5q0)
 ```
 
 
