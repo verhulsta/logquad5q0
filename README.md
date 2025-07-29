@@ -64,11 +64,9 @@ To report issues or suggest improvements, please contact
 You can install the released version of logquad5q0 with:
 
 ``` r
-install.packages("devtools")
-library(devtools)
+install.packages("remotes")
 
-install_github(repo = "verhulsta/logquad5q0")
-library(logquad5q0)
+remotes::install_github("verhulsta/logquad5q0")
 ```
 
 ## Main function: lagrange5q0
