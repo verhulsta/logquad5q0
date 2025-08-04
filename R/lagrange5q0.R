@@ -2,7 +2,7 @@
 #'
 #' @description \code{lagrange5q0} predicts a series of 22 cumulative probabilities of dying (q(x)) and mortality rates (nMx) for the first 5 years of life, based on one or more mortality inputs between 0 and 5 years.
 #'
-#' @references \code{lagrange5q0} uses the  method of Langrage in order to solve the log-quadratic model presented in \url{https://doi.org/10.1215/00703370-9709538}.
+#' @references \code{lagrange5q0} uses the  method of Langrage in order to solve the log-quadratic model presented in \url{https://doi.org/10.1215/00703370-9709538}, \url{https://doi.org/10.1215/00703370-11330227}, and  \url{https://doi.org/20.500.14332/61535}
 #' @author Andrea Verhulst, \email{andrea.verhulst@ined.fr}, Julio Romero \email{Julio.Romero-Prieto@lshtm.ac.uk}
 #' @param data    mortality inputs formated with \code{format_data}.
 #' @param k       constrained value of k (only when using a single mortality input).

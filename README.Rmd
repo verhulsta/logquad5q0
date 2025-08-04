@@ -25,7 +25,11 @@ knitr::opts_chunk$set(
 [Guillot M., J. Romero Prieto, A. Verhulst, P. Gerland. 2022. Modeling Age Patterns of Under-5 Mortality: Results From a Log-Quadratic Model Applied to High-Quality Vital Registration Data. *Demography*](https://doi.org/10.1215/00703370-9709538).
 
 
-[J. Romero-Prieto J. , A. Verhulst, and M. Guillot. 2024. Estimating 1a0 and 4a1 in a Life Table: A Model Approach Based on Newly Collected Data. *Demography*](https://doi.org/10.1215/00703370-11330227).
+[Romero-Prieto J. , A. Verhulst, and M. Guillot. 2024. Estimating 1a0 and 4a1 in a Life Table: A Model Approach Based on Newly Collected Data. *Demography*](https://doi.org/10.1215/00703370-11330227).
+
+
+[Verhulst A., J. Romero-Prieto, and M. Guillot. 2025. Modeling age patterns of under-5 mortality: A comprehensive model life table approach for low- and middle-income countries. *Population Center Working Paper (PSC/PARC)*](https://doi.org/20.500.14332/61535).
+
 
 ## Overview
 

@@ -109,7 +109,7 @@ input <- format_data(
 lagrange5q0(data = input, model = 'B', region = "Middle Africa")
 }
 \references{
-\code{lagrange5q0} uses the  method of Langrage in order to solve the log-quadratic model presented in \url{https://doi.org/10.1215/00703370-9709538}.
+\code{lagrange5q0} uses the  method of Langrage in order to solve the log-quadratic model presented in \url{https://doi.org/10.1215/00703370-9709538}, \url{https://doi.org/10.1215/00703370-11330227}, and  \url{https://doi.org/20.500.14332/61535}
 }
 \author{
 Andrea Verhulst, \email{andrea.verhulst@ined.fr}, Julio Romero \email{Julio.Romero-Prieto@lshtm.ac.uk}
